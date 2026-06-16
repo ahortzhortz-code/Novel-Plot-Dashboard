@@ -168,13 +168,13 @@
 
                 <!-- 2. Plot Structure & 3. Characters -->
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div class="glass-panel p-6 rounded-2xl">
+                    <div class="glass-panel p-6 rounded-2xl flex flex-col">
                         <div class="flex items-center gap-2 mb-3">
                             <div class="w-8 h-8 rounded-full bg-earth-100 flex items-center justify-center text-earth-600"><i class="ph ph-steps text-lg"></i></div>
                             <label class="text-lg font-semibold text-earth-900">2. โครงสร้างเรื่อง</label>
                         </div>
                         <p class="text-xs text-earth-500 mb-3 ml-10">แบ่ง 3 องก์ หรือการเดินทางของตัวละคร</p>
-                        <textarea id="input-structure" oninput="saveData()" rows="5" class="glass-input w-full px-4 py-3 rounded-xl text-earth-800 resize-none"></textarea>
+                        <textarea id="input-structure" oninput="saveData()" rows="6" class="glass-input w-full px-4 py-3 rounded-xl text-earth-800 placeholder-earth-400 focus:outline-none focus:border-earth-400 resize-none flex-1"></textarea>
                     </div>
 
                     <!-- 3. Characters & Relationships (Dynamic) -->
@@ -254,22 +254,38 @@
 
                 <!-- 8. Extras & 9. Chapters -->
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div class="glass-panel p-6 rounded-2xl">
+                    <div class="glass-panel p-6 rounded-2xl md:col-span-2">
                         <div class="flex items-center gap-2 mb-3">
                             <div class="w-8 h-8 rounded-full bg-earth-100 flex items-center justify-center text-earth-600"><i class="ph ph-puzzle-piece text-lg"></i></div>
-                            <label class="text-lg font-semibold text-earth-900">8. องค์ประกอบเสริม</label>
+                            <label class="text-lg font-semibold text-earth-900">8. องค์ประกอบเสริม (พล็อตรอง, จุดหักมุม)</label>
                         </div>
-                        <p class="text-xs text-earth-500 mb-3 ml-10">จุดหักมุม (Plot Twist), พล็อตรอง (Subplot)</p>
-                        <textarea id="input-extras" oninput="saveData()" rows="4" class="glass-input w-full px-4 py-3 rounded-xl text-earth-800 resize-none"></textarea>
+                        <textarea id="input-extras" oninput="saveData()" rows="3" class="glass-input w-full px-4 py-3 rounded-xl text-earth-800 resize-none"></textarea>
                     </div>
 
-                    <div class="glass-panel p-6 rounded-2xl">
-                        <div class="flex items-center gap-2 mb-3">
+                    <div class="glass-panel p-6 rounded-2xl md:col-span-2 group">
+                        <div class="flex items-center gap-2 mb-4">
                             <div class="w-8 h-8 rounded-full bg-earth-100 flex items-center justify-center text-earth-600"><i class="ph ph-book-open-text text-lg"></i></div>
-                            <label class="text-lg font-semibold text-earth-900">9. จำนวนตอน & ตอนพิเศษ</label>
+                            <label class="text-lg font-semibold text-earth-900">9. แผนผังรายตอน (Chapter Planning)</label>
                         </div>
-                        <p class="text-xs text-earth-500 mb-3 ml-10">แพลนความยาวเรื่องสั้น/ยาว, ไอเดียตอนพิเศษหลังจบเรื่อง</p>
-                        <textarea id="input-chapters" oninput="saveData()" rows="4" class="glass-input w-full px-4 py-3 rounded-xl text-earth-800 resize-none"></textarea>
+                        
+                        <div class="flex flex-col sm:flex-row gap-3 mb-6 bg-earth-50/50 p-4 rounded-xl border border-earth-200">
+                            <div class="flex-1">
+                                <label class="block text-xs font-semibold text-earth-700 mb-1">สร้างผังใหม่ (ระบุจำนวนตอน)</label>
+                                <input type="number" id="input-chapter-count" placeholder="เช่น 20" min="1" class="glass-input w-full px-3 py-2 rounded-lg text-earth-900 text-sm">
+                            </div>
+                            <div class="flex items-end gap-2">
+                                <button onclick="generateChapters()" class="w-full sm:w-auto px-4 py-2 bg-earth-600 hover:bg-earth-700 text-white text-sm font-medium rounded-lg transition shadow-sm">
+                                    <i class="ph ph-magic-wand"></i> สร้างใหม่
+                                </button>
+                                <button onclick="addSingleChapter()" class="w-full sm:w-auto px-4 py-2 bg-white border border-earth-300 hover:bg-earth-100 text-earth-800 text-sm font-medium rounded-lg transition shadow-sm">
+                                    <i class="ph ph-plus"></i> เพิ่ม 1 ตอน
+                                </button>
+                            </div>
+                        </div>
+
+                        <div id="chapter-setup-list" class="space-y-2 max-h-[400px] overflow-y-auto custom-scrollbar pr-2">
+                            <p class="text-sm text-earth-400 italic text-center py-4">- ยังไม่ได้สร้างผังรายตอน -</p>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -376,6 +392,40 @@
                 </div>
             </div>
             
+            <!-- NEW: Progress Tracker -->
+            <div class="glass-panel p-6 md:p-8 rounded-3xl mt-6 border-t-4 border-t-green-600/80">
+                <div class="flex items-center gap-3 mb-6 border-b border-earth-200 pb-3">
+                    <i class="ph ph-check-square-offset text-3xl text-green-600"></i>
+                    <h3 class="text-2xl font-bold text-earth-900">ความคืบหน้าการเขียน (Writing Progress)</h3>
+                </div>
+                
+                <div class="flex flex-col lg:flex-row gap-8 items-start">
+                    <!-- Circle Chart -->
+                    <div class="flex flex-col items-center justify-center shrink-0 bg-white/50 p-6 rounded-2xl shadow-sm border border-white w-full lg:w-64">
+                        <div class="relative w-32 h-32">
+                            <svg viewBox="0 0 100 100" class="w-full h-full transform -rotate-90 drop-shadow-md">
+                                <circle cx="50" cy="50" r="40" fill="transparent" stroke="#e4dbcd" stroke-width="8"></circle>
+                                <circle id="dash-progress-circle" cx="50" cy="50" r="40" fill="transparent" stroke="#16a34a" stroke-width="8" stroke-dasharray="251.2" stroke-dashoffset="251.2" stroke-linecap="round" class="transition-all duration-1000 ease-out"></circle>
+                            </svg>
+                            <div class="absolute inset-0 flex flex-col items-center justify-center">
+                                <span id="dash-progress-percent" class="text-2xl font-bold text-earth-900">0%</span>
+                            </div>
+                        </div>
+                        <div class="mt-4 text-center">
+                            <p id="dash-progress-text" class="text-earth-700 font-medium text-lg">0 / 0 ตอน</p>
+                            <p id="dash-progress-remain" class="text-sm text-earth-500 mt-1">เหลืออีก 0 ตอน</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Chapter Checklists Grouped by Act -->
+                    <div id="dash-chapter-checklist" class="flex-1 w-full grid grid-cols-1 sm:grid-cols-2 gap-4 max-h-[500px] overflow-y-auto custom-scrollbar pr-2">
+                        <!-- Rendered by JS -->
+                        <p class="text-sm text-earth-400 italic py-4">- ยังไม่มีข้อมูลรายตอน -</p>
+                    </div>
+                </div>
+            </div>
+            <!-- END: Progress Tracker -->
+
             <div class="mt-8 text-center">
                 <button onclick="window.print()" class="px-6 py-3 bg-earth-800 text-white rounded-xl shadow-lg hover:bg-earth-900 transition-colors flex items-center justify-center gap-2 mx-auto">
                     <i class="ph ph-printer"></i> พิมพ์ / บันทึกเป็น PDF
@@ -460,16 +510,20 @@
     <script>
         const fields = [
             'title', 'genre', 'theme', 'structure', 
-            'setting', 'conflict', 'plotpoints', 'ending', 'extras', 'chapters'
+            'setting', 'conflict', 'plotpoints', 'ending', 'extras'
         ];
 
         let charactersData = [];
         let relationshipsData = [];
         let customRoles = [];
         let customRelTypes = [];
+        let chaptersData = [];
+        let customActs = [];
 
         const defaultRoles = ['ตัวเอก (Protagonist)', 'ตัวละครรอง', 'ตัวร้าย (Antagonist)', 'คู่แข่ง (Rival)', 'คนรัก', 'เพื่อน/ครอบครัว', 'ผู้ชี้แนะ (Mentor)'];
         const defaultRelTypes = ['คนรัก (Lovers)', 'แอบรัก (Crush)', 'ศัตรู/คู่แค้น (Enemies)', 'คู่แข่ง (Rivals)', 'ครอบครัว (Family)', 'เพื่อนสนิท (Friends)', 'เจ้านาย-ลูกน้อง', 'ความแค้นฝังใจ'];
+
+        const staticActs = ['องก์ 1: จุดเริ่มต้น (Setup)', 'องก์ 2: เผชิญหน้า (Confrontation)', 'องก์ 3: บทสรุป (Resolution)', 'ตอนพิเศษ (Extras)'];
 
         function generateId() {
             return Math.random().toString(36).substring(2, 11);
@@ -561,6 +615,7 @@
             loadData();
             renderCharactersForm();
             renderRelationshipsForm();
+            renderChaptersSetup();
             updateDashboard();
         }
 
@@ -575,6 +630,8 @@
             data.relationshipsList = relationshipsData;
             data.customRolesData = customRoles;
             data.customRelTypesData = customRelTypes;
+            data.chaptersDataList = chaptersData;
+            data.customActsData = customActs;
 
             localStorage.setItem('novelCraftData', JSON.stringify(data));
             
@@ -608,6 +665,8 @@
                     if (data.relationshipsList) relationshipsData = data.relationshipsList;
                     if (data.customRolesData) customRoles = data.customRolesData;
                     if (data.customRelTypesData) customRelTypes = data.customRelTypesData;
+                    if (data.chaptersDataList) chaptersData = data.chaptersDataList;
+                    if (data.customActsData) customActs = data.customActsData;
                 } catch (e) {
                     console.error("Data parse error", e);
                 }
@@ -623,13 +682,18 @@
                     const element = document.getElementById(`input-${field}`);
                     if(element) element.value = '';
                 });
+                
                 charactersData = [];
                 relationshipsData = [];
                 customRoles = [];
                 customRelTypes = [];
+                chaptersData = [];
+                customActs = [];
+                
                 addCharacter(true); 
                 renderCharactersForm();
                 renderRelationshipsForm();
+                renderChaptersSetup();
                 updateDashboard();
                 switchTab('form');
             });
@@ -708,7 +772,7 @@
                     img.onload = function() {
                         const canvas = document.createElement('canvas');
                         const ctx = canvas.getContext('2d');
-                        const MAX_WIDTH = 400; // Increased to maintain good quality for portrait modal
+                        const MAX_WIDTH = 400; 
                         const MAX_HEIGHT = 600;
                         let width = img.width;
                         let height = img.height;
@@ -935,6 +999,176 @@
             container.innerHTML = htmlStr;
         }
 
+        // --- CHAPTER MANAGEMENT LOGIC ---
+
+        function getActNames() {
+            return staticActs.concat(customActs);
+        }
+
+        function handleActChange(chId, selectElement) {
+            const val = selectElement.value;
+            const ch = chaptersData.find(function(c) { return c.id === chId; });
+            const prevAct = ch.act;
+
+            if (val === '_add_new_') {
+                showInputPrompt("กำหนดองก์/หมวดหมู่ใหม่:", "เช่น ปฐมบท, ภาคอดีต, ซีซั่น 2...", function(newValue) {
+                    if (newValue && newValue.trim() !== "") {
+                        const cleanValue = newValue.trim();
+                        if(!customActs.includes(cleanValue) && !staticActs.includes(cleanValue)) {
+                            customActs.push(cleanValue);
+                        }
+                        updateChapterProp(chId, 'act', cleanValue);
+                        renderChaptersSetup(); 
+                    } else {
+                        selectElement.value = prevAct; 
+                    }
+                }, function() {
+                     selectElement.value = prevAct; 
+                });
+            } else {
+                updateChapterProp(chId, 'act', val);
+            }
+        }
+
+        function generateChapters() {
+            const countInput = document.getElementById('input-chapter-count');
+            const count = parseInt(countInput.value);
+            
+            if (isNaN(count) || count <= 0) {
+                showMessage("โปรดระบุจำนวนตอนที่ถูกต้อง (มากกว่า 0)");
+                return;
+            }
+            
+            if (chaptersData.length > 0) {
+                showMessage("การสร้างผังรายตอนใหม่ จะลบทับข้อมูลตอนและสถานะความคืบหน้าเดิมทั้งหมด คุณยืนยันหรือไม่?", true, function() {
+                    createNewChapters(count);
+                });
+            } else {
+                createNewChapters(count);
+            }
+        }
+
+        function createNewChapters(count) {
+            chaptersData = [];
+            const firstAct = getActNames()[0];
+            for (let i = 1; i <= count; i++) {
+                chaptersData.push({
+                    id: generateId(),
+                    num: i,
+                    title: '',
+                    act: firstAct,
+                    completed: false
+                });
+            }
+            renderChaptersSetup();
+            saveData();
+        }
+        
+        function addSingleChapter() {
+            const firstAct = getActNames()[0];
+            const newNum = chaptersData.length > 0 ? chaptersData.length + 1 : 1;
+            chaptersData.push({
+                id: generateId(),
+                num: newNum,
+                title: '',
+                act: firstAct,
+                completed: false
+            });
+            renderChaptersSetup();
+            saveData();
+            
+            // Scroll to bottom of list
+            setTimeout(() => {
+                const list = document.getElementById('chapter-setup-list');
+                if(list) list.scrollTop = list.scrollHeight;
+            }, 100);
+        }
+        
+        function deleteChapter(id) {
+            showMessage("ต้องการลบตอนนี้ใช่หรือไม่?", true, function() {
+                chaptersData = chaptersData.filter(c => c.id !== id);
+                // Re-number
+                chaptersData.forEach((c, index) => {
+                    c.num = index + 1;
+                });
+                renderChaptersSetup();
+                saveData();
+            });
+        }
+
+        function updateChapterProp(id, prop, value) {
+            const ch = chaptersData.find(c => c.id === id);
+            if(ch) {
+                ch[prop] = value;
+                saveData();
+            }
+        }
+
+        function toggleChapterComplete(id) {
+            const ch = chaptersData.find(c => c.id === id);
+            if(ch) {
+                ch.completed = !ch.completed;
+                saveData(); 
+            }
+        }
+
+        function renderChaptersSetup() {
+            const container = document.getElementById('chapter-setup-list');
+            if(!container) return;
+
+            if(chaptersData.length === 0) {
+                container.innerHTML = '<p class="text-sm text-earth-400 italic text-center py-4">- ยังไม่ได้สร้างผังรายตอน -</p>';
+                return;
+            }
+
+            let htmlStr = '';
+            const actsList = getActNames();
+            
+            chaptersData.forEach(function(ch) {
+                let optionsHtml = '';
+                
+                let currentAct = ch.act;
+                let extraOption = '';
+                if (!actsList.includes(currentAct) && currentAct) {
+                    extraOption = `<option value="${currentAct}" selected>${currentAct}</option>`;
+                } else if (!currentAct && actsList.length > 0) {
+                    currentAct = actsList[0];
+                    ch.act = currentAct;
+                }
+
+                actsList.forEach(function(act) {
+                    const sel = (currentAct === act) ? 'selected' : '';
+                    optionsHtml += `<option value="${act}" ${sel}>${act}</option>`;
+                });
+
+                htmlStr += `
+                <div class="flex flex-col md:flex-row items-center gap-3 bg-white/60 p-3 rounded-xl border border-white shadow-sm fade-in relative group/ch">
+                    <button onclick="deleteChapter('${ch.id}')" class="absolute -top-2 -right-2 w-6 h-6 bg-red-100 text-red-500 rounded-full flex items-center justify-center opacity-0 group-hover/ch:opacity-100 transition shadow-sm hover:bg-red-500 hover:text-white z-10" title="ลบตอนนี้">
+                        <i class="ph ph-x text-xs font-bold"></i>
+                    </button>
+                    <div class="w-20 shrink-0 text-center bg-earth-100 py-1.5 rounded-lg text-earth-800 font-bold text-sm">
+                        ตอนที่ ${ch.num}
+                    </div>
+                    <input type="text" value="${ch.title}" oninput="updateChapterProp('${ch.id}', 'title', this.value)" placeholder="ชื่อตอน / พล็อตย่อ..." class="flex-1 bg-transparent border-b border-earth-300 focus:border-earth-600 outline-none px-2 py-1 text-sm text-earth-900 w-full">
+                    <select onchange="handleActChange('${ch.id}', this)" class="w-full md:w-auto bg-earth-50 border border-earth-200 text-xs rounded-lg px-2 py-2 text-earth-700 outline-none font-medium shrink-0 max-w-full md:max-w-[170px] truncate">
+                        ${optionsHtml}
+                        ${extraOption}
+                        <option disabled>──────</option>
+                        <option value="_add_new_" class="font-bold text-earth-700">+ เพิ่มเติม...</option>
+                    </select>
+                </div>
+                `;
+            });
+            container.innerHTML = htmlStr;
+            
+            const countInput = document.getElementById('input-chapter-count');
+            if(countInput) {
+                countInput.value = chaptersData.length;
+            }
+        }
+
+        // --- END CHAPTER LOGIC ---
+
         function updateDashboard() {
             fields.forEach(function(field) {
                 const inputElement = document.getElementById(`input-${field}`);
@@ -1006,6 +1240,74 @@
                     relListContainer.innerHTML = relsHtml;
                 } else {
                     relListContainer.innerHTML = '<li class="text-earth-400 italic">- ไม่มีข้อมูลความสัมพันธ์ -</li>';
+                }
+            }
+            
+            // --- Update Chapter Progress ---
+            const dashChecklist = document.getElementById('dash-chapter-checklist');
+            const dashPercent = document.getElementById('dash-progress-percent');
+            const dashText = document.getElementById('dash-progress-text');
+            const dashRemain = document.getElementById('dash-progress-remain');
+            const dashCircle = document.getElementById('dash-progress-circle');
+
+            if(dashChecklist) {
+                if(chaptersData.length === 0) {
+                    dashChecklist.innerHTML = '<p class="text-sm text-earth-400 italic py-4 col-span-2 text-center">- ยังไม่มีข้อมูลรายตอน กรุณาสร้างที่หน้าฟอร์ม -</p>';
+                    dashPercent.textContent = '0%';
+                    dashText.textContent = '0 / 0 ตอน';
+                    dashRemain.textContent = 'เหลืออีก 0 ตอน';
+                    if(dashCircle) dashCircle.style.strokeDashoffset = 251.2;
+                } else {
+                    const total = chaptersData.length;
+                    const completed = chaptersData.filter(c => c.completed).length;
+                    const remain = total - completed;
+                    const percent = Math.round((completed / total) * 100);
+                    
+                    dashPercent.textContent = `${percent}%`;
+                    dashText.textContent = `${completed} / ${total} ตอน`;
+                    dashRemain.textContent = remain === 0 ? '🎉 เขียนจบแล้ว!' : `เหลืออีก ${remain} ตอน`;
+                    
+                    if(dashCircle) {
+                        const offset = 251.2 - ((percent / 100) * 251.2);
+                        dashCircle.style.strokeDashoffset = offset;
+                    }
+
+                    // Group by Acts dynamically
+                    const grouped = {};
+                    const actsList = getActNames();
+                    actsList.forEach(actName => grouped[actName] = []);
+                    
+                    chaptersData.forEach(ch => {
+                        const actGroup = actsList.includes(ch.act) ? ch.act : (actsList[0] || 'ไม่ระบุองก์');
+                        if(!grouped[actGroup]) grouped[actGroup] = [];
+                        grouped[actGroup].push(ch);
+                    });
+
+                    let checklistHtml = '';
+                    actsList.forEach(actName => {
+                        if(grouped[actName] && grouped[actName].length > 0) {
+                            checklistHtml += `<div class="col-span-1 sm:col-span-2 mt-4 mb-2 border-b border-earth-200 pb-1"><h4 class="font-bold text-earth-800 text-sm"><i class="ph ph-folder-notch-open"></i> ${actName}</h4></div>`;
+                            grouped[actName].forEach(ch => {
+                                const checked = ch.completed ? 'checked' : '';
+                                const lineThrough = ch.completed ? 'line-through text-earth-400' : 'text-earth-800';
+                                const titleDisplay = ch.title ? `<span class="text-xs text-earth-500 ml-1 truncate">(${ch.title})</span>` : '';
+                                
+                                checklistHtml += `
+                                <label class="flex items-center gap-3 p-2 hover:bg-white/50 rounded-lg cursor-pointer transition">
+                                    <div class="relative flex items-center shrink-0">
+                                        <input type="checkbox" class="peer appearance-none w-5 h-5 border-2 border-earth-300 rounded focus:outline-none checked:bg-green-500 checked:border-green-500 transition cursor-pointer" onchange="toggleChapterComplete('${ch.id}')" ${checked}>
+                                        <i class="ph ph-check text-white absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 opacity-0 peer-checked:opacity-100 text-sm pointer-events-none transition"></i>
+                                    </div>
+                                    <div class="flex-1 truncate">
+                                        <span class="font-semibold text-sm ${lineThrough}">ตอนที่ ${ch.num}</span>
+                                        ${titleDisplay}
+                                    </div>
+                                </label>
+                                `;
+                            });
+                        }
+                    });
+                    dashChecklist.innerHTML = checklistHtml;
                 }
             }
         }
