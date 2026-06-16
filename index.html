@@ -1,109 +1,4 @@
-<!DOCTYPE html>
-<html lang="th">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NovelCraft - แดชบอร์ดวางพล็อตนิยาย</title>
-    
-    <!-- Google Fonts: Prompt for Thai, Inter for numbers/English -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    
-    <!-- Phosphor Icons -->
-    <script src="https://unpkg.com/@phosphor-icons/web"></script>
-
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: {
-                        sans: ['Prompt', 'Inter', 'sans-serif'],
-                    },
-                    colors: {
-                        earth: {
-                            50: '#f9f8f6',
-                            100: '#f2eee7',
-                            200: '#e4dbcd',
-                            300: '#d0c2ab',
-                            400: '#bba284',
-                            500: '#ab8865',
-                            600: '#9b7355',
-                            700: '#815c46',
-                            800: '#6a4d3d',
-                            900: '#564034',
-                        }
-                    }
-                }
-            }
-        }
-    </script>
-    <style>
-        /* Custom Scrollbar */
-        ::-webkit-scrollbar { width: 8px; height: 8px; }
-        ::-webkit-scrollbar-track { background: transparent; }
-        ::-webkit-scrollbar-thumb { background: #d0c2ab; border-radius: 4px; }
-        ::-webkit-scrollbar-thumb:hover { background: #bba284; }
-
-        /* Glassmorphism Classes */
-        .glass-panel {
-            background: rgba(255, 255, 255, 0.5);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.6);
-            box-shadow: 0 8px 32px 0 rgba(106, 77, 61, 0.05);
-        }
-        
-        .glass-input {
-            background: rgba(255, 255, 255, 0.6);
-            border: 1px solid rgba(208, 194, 171, 0.4);
-            transition: all 0.3s ease;
-        }
-        .glass-input:focus {
-            background: rgba(255, 255, 255, 0.9);
-            border-color: #ab8865;
-            box-shadow: 0 0 0 3px rgba(171, 136, 101, 0.15);
-            outline: none;
-        }
-
-        /* Background Blobs for Glass Effect */
-        .bg-blob-1 {
-            position: fixed; top: -10%; left: -10%; width: 50vw; height: 50vw;
-            background: radial-gradient(circle, rgba(228,219,205,0.6) 0%, rgba(242,238,231,0) 70%);
-            z-index: -1; filter: blur(40px); border-radius: 50%;
-        }
-        .bg-blob-2 {
-            position: fixed; bottom: -10%; right: -5%; width: 60vw; height: 60vw;
-            background: radial-gradient(circle, rgba(208,194,171,0.4) 0%, rgba(242,238,231,0) 70%);
-            z-index: -1; filter: blur(60px); border-radius: 50%;
-        }
-        
-        body { background-color: #f9f8f6; color: #564034; overflow-x: hidden; }
-
-        /* Fade transitions */
-        .fade-in { animation: fadeIn 0.4s ease-in-out; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-    </style>
-</head>
-<body class="min-h-screen flex flex-col md:flex-row antialiased">
-
-    <!-- Background Elements -->
-    <div class="bg-blob-1"></div>
-    <div class="bg-blob-2"></div>
-
-    <!-- Navigation -->
-    <nav class="md:w-64 glass-panel md:min-h-screen flex flex-col justify-between m-4 md:mr-0 rounded-2xl relative z-10 shrink-0">
-        <div class="p-6">
-            <div class="flex items-center gap-3 mb-8">
-                <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-earth-400 to-earth-600 text-white flex items-center justify-center shadow-lg">
-                    <i class="ph ph-feather text-2xl"></i>
-                </div>
-                <h1 class="text-xl font-bold text-earth-900 tracking-wide">NovelCraft</h1>
-            </div>
-
+<!-- ... existing code ... -->
             <ul class="space-y-2">
                 <li>
                     <button onclick="switchTab('form')" id="btn-form" class="w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all font-medium bg-white/70 text-earth-800 shadow-sm border border-white">
@@ -118,6 +13,19 @@
                     </button>
                 </li>
             </ul>
+
+            <!-- NEW: Project Library -->
+            <div class="mt-6 border-t border-earth-200/50 pt-4">
+                <div class="flex items-center justify-between mb-3">
+                    <h3 class="text-xs font-bold text-earth-800 flex items-center gap-1"><i class="ph ph-books text-sm"></i> คลังนิยายของฉัน</h3>
+                    <button onclick="createNewProject()" class="text-[10px] bg-earth-700 text-white px-2 py-1.5 rounded-lg hover:bg-earth-800 transition flex items-center gap-1 shadow-sm font-medium">
+                        <i class="ph ph-plus"></i> เรื่องใหม่
+                    </button>
+                </div>
+                <!-- รายชื่อเรื่องจะถูกแทรกที่นี่ -->
+                <ul id="project-list-container" class="space-y-1.5 max-h-[220px] overflow-y-auto custom-scrollbar pr-1">
+                </ul>
+            </div>
         </div>
         
         <div class="p-6 border-t border-earth-200/50">
@@ -125,564 +33,97 @@
                 <i class="ph ph-check-circle text-green-600 text-base"></i>
                 <span id="save-status">บันทึกอัตโนมัติ</span>
             </div>
-            <button onclick="clearData()" class="mt-4 w-full text-xs text-red-400 hover:text-red-600 flex items-center justify-center gap-1 transition">
-                <i class="ph ph-trash"></i> ล้างข้อมูลทั้งหมด
-            </button>
         </div>
     </nav>
 
     <!-- Main Content Area -->
-    <main class="flex-1 p-4 md:p-8 h-screen overflow-y-auto z-10">
-        
-        <!-- View: Form -->
-        <div id="view-form" class="fade-in max-w-4xl mx-auto pb-20">
-            <header class="mb-8">
-                <h2 class="text-3xl font-bold text-earth-900 mb-2">โครงร่างนิยายของคุณ</h2>
-                <p class="text-earth-600">กรอกข้อมูลเพื่อวางรากฐานเรื่องราวให้แข็งแรง ระบบจะบันทึกอัตโนมัติ</p>
-            </header>
+<!-- ... existing code ... -->
+```
 
-            <div class="space-y-6">
-                <!-- Title & Logline -->
-                <div class="glass-panel p-6 rounded-2xl">
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div>
-                            <label class="block text-sm font-semibold text-earth-800 mb-2">ชื่อเรื่อง (Title)</label>
-                            <input type="text" id="input-title" oninput="saveData()" placeholder="เช่น แฮร์รี่ พอตเตอร์..." class="glass-input w-full px-4 py-3 rounded-xl text-lg font-medium text-earth-900 placeholder-earth-300">
-                        </div>
-                        <div>
-                            <label class="block text-sm font-semibold text-earth-800 mb-2">แนวเรื่อง (Genre)</label>
-                            <input type="text" id="input-genre" oninput="saveData()" placeholder="เช่น แฟนตาซี, โรแมนติก, สืบสวน..." class="glass-input w-full px-4 py-3 rounded-xl text-lg text-earth-900 placeholder-earth-300">
-                        </div>
-                    </div>
-                </div>
-
-                <!-- 1. Theme -->
-                <div class="glass-panel p-6 rounded-2xl group">
-                    <div class="flex items-center gap-2 mb-3">
-                        <div class="w-8 h-8 rounded-full bg-earth-100 flex items-center justify-center text-earth-600"><i class="ph ph-lightbulb text-lg"></i></div>
-                        <label class="text-lg font-semibold text-earth-900">1. แก่นเรื่อง (Theme)</label>
-                    </div>
-                    <p class="text-xs text-earth-500 mb-3 ml-10">ข้อคิดหรือหัวใจหลักที่ต้องการสื่อสาร (เช่น ความรักชนะทุกสิ่ง, การค้นพบตัวเอง)</p>
-                    <textarea id="input-theme" oninput="saveData()" rows="2" class="glass-input w-full px-4 py-3 rounded-xl text-earth-800 placeholder-earth-300 resize-none"></textarea>
-                </div>
-
-                <!-- 2. Plot Structure & 3. Characters -->
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div class="glass-panel p-6 rounded-2xl flex flex-col">
-                        <div class="flex items-center gap-2 mb-3">
-                            <div class="w-8 h-8 rounded-full bg-earth-100 flex items-center justify-center text-earth-600"><i class="ph ph-steps text-lg"></i></div>
-                            <label class="text-lg font-semibold text-earth-900">2. โครงสร้างเรื่อง</label>
-                        </div>
-                        <p class="text-xs text-earth-500 mb-3 ml-10">แบ่ง 3 องก์ หรือการเดินทางของตัวละคร</p>
-                        <textarea id="input-structure" oninput="saveData()" rows="6" class="glass-input w-full px-4 py-3 rounded-xl text-earth-800 placeholder-earth-400 focus:outline-none focus:border-earth-400 resize-none flex-1"></textarea>
-                    </div>
-
-                    <!-- 3. Characters & Relationships (Dynamic) -->
-                    <div class="glass-panel p-6 rounded-2xl md:col-span-2 group">
-                        <div class="flex items-center gap-2 mb-4">
-                            <div class="w-8 h-8 rounded-full bg-earth-100 flex items-center justify-center text-earth-600"><i class="ph ph-users text-lg"></i></div>
-                            <label class="text-lg font-semibold text-earth-900">3. ข้อมูลตัวละคร & ความสัมพันธ์</label>
-                        </div>
-                        
-                        <!-- Characters List -->
-                        <div class="mb-6">
-                            <h4 class="text-sm font-semibold text-earth-700 mb-3 ml-2">รายชื่อตัวละคร (Characters)</h4>
-                            <div id="character-list-container" class="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-3">
-                                <!-- Cards will be generated here by JS -->
-                            </div>
-                            <button onclick="addCharacter()" class="w-full py-3 rounded-xl border-2 border-dashed border-earth-300 text-earth-600 font-medium hover:bg-earth-100 hover:border-earth-400 transition flex items-center justify-center gap-2">
-                                <i class="ph ph-plus-circle text-xl"></i> เพิ่มตัวละครใหม่
-                            </button>
-                        </div>
-
-                        <hr class="border-earth-200/60 my-6">
-
-                        <!-- Relationships List -->
-                        <div>
-                            <h4 class="text-sm font-semibold text-earth-700 mb-3 ml-2 flex items-center gap-2">
-                                <i class="ph ph-link text-lg"></i> โยงความสัมพันธ์ / ปมระหว่างตัวละคร
-                            </h4>
-                            <div id="relationship-list-container" class="space-y-3 mb-3">
-                                <!-- Relationship rows will be generated here by JS -->
-                            </div>
-                            <button onclick="addRelationship()" class="px-4 py-2 bg-white/50 border border-earth-200 rounded-lg text-earth-700 text-sm font-medium hover:bg-white hover:shadow-sm transition flex items-center gap-2">
-                                <i class="ph ph-git-branch"></i> เพิ่มความสัมพันธ์
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- 4. Setting & 5. Conflict -->
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div class="glass-panel p-6 rounded-2xl">
-                        <div class="flex items-center gap-2 mb-3">
-                            <div class="w-8 h-8 rounded-full bg-earth-100 flex items-center justify-center text-earth-600"><i class="ph ph-globe-hemisphere-west text-lg"></i></div>
-                            <label class="text-lg font-semibold text-earth-900">4. ฉากและโลก (Setting)</label>
-                        </div>
-                        <p class="text-xs text-earth-500 mb-3 ml-10">ยุคสมัย, สถานที่, กฎเกณฑ์, บรรยากาศ</p>
-                        <textarea id="input-setting" oninput="saveData()" rows="4" class="glass-input w-full px-4 py-3 rounded-xl text-earth-800 resize-none"></textarea>
-                    </div>
-
-                    <div class="glass-panel p-6 rounded-2xl">
-                        <div class="flex items-center gap-2 mb-3">
-                            <div class="w-8 h-8 rounded-full bg-earth-100 flex items-center justify-center text-earth-600"><i class="ph ph-swords text-lg"></i></div>
-                            <label class="text-lg font-semibold text-earth-900">5. ปมปัญหา (Conflict)</label>
-                        </div>
-                        <p class="text-xs text-earth-500 mb-3 ml-10">ความขัดแย้งภายนอก (สู้กับใคร) / ภายใน (สู้กับใจตัวเอง)</p>
-                        <textarea id="input-conflict" oninput="saveData()" rows="4" class="glass-input w-full px-4 py-3 rounded-xl text-earth-800 resize-none"></textarea>
-                    </div>
-                </div>
-
-                <!-- 6. Plot Points & 7. Ending -->
-                <div class="glass-panel p-6 rounded-2xl">
-                    <div class="flex items-center gap-2 mb-3">
-                        <div class="w-8 h-8 rounded-full bg-earth-100 flex items-center justify-center text-earth-600"><i class="ph ph-map-pin-line text-lg"></i></div>
-                        <label class="text-lg font-semibold text-earth-900">6. เหตุการณ์สำคัญ (Plot Points)</label>
-                    </div>
-                    <p class="text-xs text-earth-500 mb-3 ml-10">จุดเริ่มต้น (Inciting Incident) -> ไต่ระดับ -> ไคลแมกซ์</p>
-                    <textarea id="input-plotpoints" oninput="saveData()" rows="4" class="glass-input w-full px-4 py-3 rounded-xl text-earth-800 resize-none"></textarea>
-                </div>
-
-                <div class="glass-panel p-6 rounded-2xl">
-                    <div class="flex items-center gap-2 mb-3">
-                        <div class="w-8 h-8 rounded-full bg-earth-100 flex items-center justify-center text-earth-600"><i class="ph ph-flag-checkered text-lg"></i></div>
-                        <label class="text-lg font-semibold text-earth-900">7. บทสรุป (Ending)</label>
-                    </div>
-                    <p class="text-xs text-earth-500 mb-3 ml-10">จบสมบูรณ์, ปลายเปิด, แฮปปี้เอนดิ้ง หรือ โศกนาฏกรรม</p>
-                    <textarea id="input-ending" oninput="saveData()" rows="3" class="glass-input w-full px-4 py-3 rounded-xl text-earth-800 resize-none"></textarea>
-                </div>
-
-                <!-- 8. Extras & 9. Chapters -->
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div class="glass-panel p-6 rounded-2xl md:col-span-2">
-                        <div class="flex items-center gap-2 mb-3">
-                            <div class="w-8 h-8 rounded-full bg-earth-100 flex items-center justify-center text-earth-600"><i class="ph ph-puzzle-piece text-lg"></i></div>
-                            <label class="text-lg font-semibold text-earth-900">8. องค์ประกอบเสริม (พล็อตรอง, จุดหักมุม)</label>
-                        </div>
-                        <textarea id="input-extras" oninput="saveData()" rows="3" class="glass-input w-full px-4 py-3 rounded-xl text-earth-800 resize-none"></textarea>
-                    </div>
-
-                    <div class="glass-panel p-6 rounded-2xl md:col-span-2 group">
-                        <div class="flex items-center gap-2 mb-4">
-                            <div class="w-8 h-8 rounded-full bg-earth-100 flex items-center justify-center text-earth-600"><i class="ph ph-book-open-text text-lg"></i></div>
-                            <label class="text-lg font-semibold text-earth-900">9. แผนผังรายตอน (Chapter Planning)</label>
-                        </div>
-                        
-                        <div class="flex flex-col sm:flex-row gap-3 mb-6 bg-earth-50/50 p-4 rounded-xl border border-earth-200">
-                            <div class="flex-1">
-                                <label class="block text-xs font-semibold text-earth-700 mb-1">สร้างผังใหม่ (ระบุจำนวนตอน)</label>
-                                <input type="number" id="input-chapter-count" placeholder="เช่น 20" min="1" class="glass-input w-full px-3 py-2 rounded-lg text-earth-900 text-sm">
-                            </div>
-                            <div class="flex items-end gap-2">
-                                <button onclick="generateChapters()" class="w-full sm:w-auto px-4 py-2 bg-earth-600 hover:bg-earth-700 text-white text-sm font-medium rounded-lg transition shadow-sm">
-                                    <i class="ph ph-magic-wand"></i> สร้างใหม่
-                                </button>
-                                <button onclick="addSingleChapter()" class="w-full sm:w-auto px-4 py-2 bg-white border border-earth-300 hover:bg-earth-100 text-earth-800 text-sm font-medium rounded-lg transition shadow-sm">
-                                    <i class="ph ph-plus"></i> เพิ่ม 1 ตอน
-                                </button>
-                            </div>
-                        </div>
-
-                        <div id="chapter-setup-list" class="space-y-2 max-h-[400px] overflow-y-auto custom-scrollbar pr-2">
-                            <p class="text-sm text-earth-400 italic text-center py-4">- ยังไม่ได้สร้างผังรายตอน -</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- View: Dashboard Summary -->
-        <div id="view-dashboard" class="fade-in max-w-6xl mx-auto pb-20 hidden">
-            
+```html:แอปวางพล็อตนิยาย (Novel Plot Dashboard):novel_plot_app.html
+<!-- ... existing code ... -->
             <!-- Dashboard Header Area -->
             <div class="glass-panel rounded-3xl p-8 mb-8 text-center relative overflow-hidden">
                 <div class="absolute top-0 right-0 p-4 opacity-10">
                     <i class="ph ph-book-open text-9xl"></i>
                 </div>
                 <span id="dash-genre" class="inline-block px-4 py-1 rounded-full bg-earth-200 text-earth-800 text-sm font-semibold tracking-wider mb-4 shadow-sm border border-white/50">แนวเรื่อง</span>
+                <span id="dash-completed-badge" class="hidden px-4 py-1 rounded-full bg-green-500 text-white text-sm font-semibold tracking-wider mb-4 shadow-sm border border-white/50 ml-2"><i class="ph ph-check-circle"></i> จบบริบูรณ์</span>
                 <h2 id="dash-title" class="text-4xl md:text-5xl font-bold text-earth-900 mb-4 drop-shadow-sm">ชื่อเรื่องนิยาย</h2>
                 <div class="inline-flex items-center gap-2 bg-white/60 px-6 py-3 rounded-2xl border border-white shadow-sm mt-2">
-                    <i class="ph ph-lightbulb-filament text-earth-600 text-xl"></i>
-                    <p id="dash-theme" class="text-lg text-earth-800 font-medium">แก่นเรื่องจะแสดงที่นี่...</p>
-                </div>
-            </div>
+<!-- ... existing code ... -->
+```
 
-            <!-- Dashboard Grid Area -->
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                
-                <!-- Character & Setting Column (Left) -->
-                <div class="space-y-6">
-                    <div class="glass-panel p-6 rounded-2xl border-t-4 border-t-earth-400">
-                        <div class="flex items-center gap-3 mb-4 border-b border-earth-200 pb-3">
-                            <i class="ph ph-users text-2xl text-earth-600"></i>
-                            <h3 class="text-xl font-bold text-earth-900">ตัวละครหลัก & ความสัมพันธ์</h3>
-                        </div>
-                        <p class="text-xs text-earth-500 mb-3">คลิกที่ป้ายชื่อตัวละครเพื่อดูรายละเอียด</p>
-                        <!-- Character Badges -->
-                        <div id="dash-characters-badges" class="flex flex-wrap gap-2 mb-4"></div>
-                        
-                        <!-- Mini Relationship List -->
-                        <div class="bg-white/40 p-3 rounded-xl border border-white shadow-inner">
-                            <h4 class="text-xs font-bold text-earth-800 mb-2 border-b border-earth-200/50 pb-1">แผนผังความสัมพันธ์ย่อ</h4>
-                            <ul id="dash-relationships-list" class="space-y-2 text-sm text-earth-700"></ul>
-                        </div>
-                    </div>
-
-                    <div class="glass-panel p-6 rounded-2xl border-t-4 border-t-earth-400">
-                        <div class="flex items-center gap-3 mb-4 border-b border-earth-200 pb-3">
-                            <i class="ph ph-globe-hemisphere-west text-2xl text-earth-600"></i>
-                            <h3 class="text-xl font-bold text-earth-900">ฉากและโลก</h3>
-                        </div>
-                        <div id="dash-setting" class="text-earth-700 whitespace-pre-wrap text-sm leading-relaxed"></div>
-                    </div>
-                </div>
-
-                <!-- Plot & Conflict Column (Center) -->
-                <div class="space-y-6">
-                    <div class="glass-panel p-6 rounded-2xl border-t-4 border-t-earth-500 shadow-md transform md:-translate-y-2">
-                        <div class="flex items-center gap-3 mb-4 border-b border-earth-200 pb-3">
-                            <i class="ph ph-swords text-2xl text-earth-600"></i>
-                            <h3 class="text-xl font-bold text-earth-900">ปมปัญหา</h3>
-                        </div>
-                        <div id="dash-conflict" class="text-earth-700 whitespace-pre-wrap text-sm leading-relaxed font-medium"></div>
-                    </div>
-
-                    <div class="glass-panel p-6 rounded-2xl border-t-4 border-t-earth-500">
-                        <div class="flex items-center gap-3 mb-4 border-b border-earth-200 pb-3">
-                            <i class="ph ph-map-pin-line text-2xl text-earth-600"></i>
-                            <h3 class="text-xl font-bold text-earth-900">เหตุการณ์สำคัญ</h3>
-                        </div>
-                        <div id="dash-plotpoints" class="text-earth-700 whitespace-pre-wrap text-sm leading-relaxed"></div>
-                    </div>
-                    
-                    <div class="glass-panel p-6 rounded-2xl border-t-4 border-t-earth-500">
-                        <div class="flex items-center gap-3 mb-4 border-b border-earth-200 pb-3">
-                            <i class="ph ph-steps text-2xl text-earth-600"></i>
-                            <h3 class="text-xl font-bold text-earth-900">โครงสร้างเรื่อง</h3>
-                        </div>
-                        <div id="dash-structure" class="text-earth-700 whitespace-pre-wrap text-sm leading-relaxed"></div>
-                    </div>
-                </div>
-
-                <!-- Ending & Extras Column (Right) -->
-                <div class="space-y-6">
-                    <div class="glass-panel p-6 rounded-2xl border-t-4 border-t-earth-600 bg-earth-800/5 backdrop-blur-md">
-                        <div class="flex items-center gap-3 mb-4 border-b border-earth-300 pb-3">
-                            <i class="ph ph-flag-checkered text-2xl text-earth-800"></i>
-                            <h3 class="text-xl font-bold text-earth-900">บทสรุป</h3>
-                        </div>
-                        <div id="dash-ending" class="text-earth-800 whitespace-pre-wrap text-sm leading-relaxed font-medium"></div>
-                    </div>
-
-                    <div class="glass-panel p-6 rounded-2xl border-t-4 border-t-earth-600">
-                        <div class="flex items-center gap-3 mb-4 border-b border-earth-200 pb-3">
-                            <i class="ph ph-book-open-text text-2xl text-earth-600"></i>
-                            <h3 class="text-xl font-bold text-earth-900">จำนวนตอน/ตอนพิเศษ</h3>
-                        </div>
-                        <div id="dash-chapters" class="text-earth-700 whitespace-pre-wrap text-sm leading-relaxed"></div>
-                    </div>
-
-                    <div class="glass-panel p-6 rounded-2xl border-t-4 border-t-earth-600 opacity-80">
-                        <div class="flex items-center gap-3 mb-4 border-b border-earth-200 pb-3">
-                            <i class="ph ph-puzzle-piece text-2xl text-earth-600"></i>
-                            <h3 class="text-xl font-bold text-earth-900">องค์ประกอบเสริม</h3>
-                        </div>
-                        <div id="dash-extras" class="text-earth-700 whitespace-pre-wrap text-sm leading-relaxed"></div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- NEW: Progress Tracker -->
-            <div class="glass-panel p-6 md:p-8 rounded-3xl mt-6 border-t-4 border-t-green-600/80">
-                <div class="flex items-center gap-3 mb-6 border-b border-earth-200 pb-3">
-                    <i class="ph ph-check-square-offset text-3xl text-green-600"></i>
-                    <h3 class="text-2xl font-bold text-earth-900">ความคืบหน้าการเขียน (Writing Progress)</h3>
-                </div>
-                
-                <div class="flex flex-col lg:flex-row gap-8 items-start">
-                    <!-- Circle Chart -->
-                    <div class="flex flex-col items-center justify-center shrink-0 bg-white/50 p-6 rounded-2xl shadow-sm border border-white w-full lg:w-64">
-                        <div class="relative w-32 h-32">
-                            <svg viewBox="0 0 100 100" class="w-full h-full transform -rotate-90 drop-shadow-md">
-                                <circle cx="50" cy="50" r="40" fill="transparent" stroke="#e4dbcd" stroke-width="8"></circle>
-                                <circle id="dash-progress-circle" cx="50" cy="50" r="40" fill="transparent" stroke="#16a34a" stroke-width="8" stroke-dasharray="251.2" stroke-dashoffset="251.2" stroke-linecap="round" class="transition-all duration-1000 ease-out"></circle>
-                            </svg>
-                            <div class="absolute inset-0 flex flex-col items-center justify-center">
-                                <span id="dash-progress-percent" class="text-2xl font-bold text-earth-900">0%</span>
-                            </div>
-                        </div>
-                        <div class="mt-4 text-center">
-                            <p id="dash-progress-text" class="text-earth-700 font-medium text-lg">0 / 0 ตอน</p>
-                            <p id="dash-progress-remain" class="text-sm text-earth-500 mt-1">เหลืออีก 0 ตอน</p>
-                        </div>
-                    </div>
-                    
-                    <!-- Chapter Checklists Grouped by Act -->
-                    <div id="dash-chapter-checklist" class="flex-1 w-full grid grid-cols-1 sm:grid-cols-2 gap-4 max-h-[500px] overflow-y-auto custom-scrollbar pr-2">
-                        <!-- Rendered by JS -->
-                        <p class="text-sm text-earth-400 italic py-4">- ยังไม่มีข้อมูลรายตอน -</p>
-                    </div>
-                </div>
-            </div>
-            <!-- END: Progress Tracker -->
-
-            <div class="mt-8 text-center">
-                <button onclick="window.print()" class="px-6 py-3 bg-earth-800 text-white rounded-xl shadow-lg hover:bg-earth-900 transition-colors flex items-center justify-center gap-2 mx-auto">
-                    <i class="ph ph-printer"></i> พิมพ์ / บันทึกเป็น PDF
-                </button>
-            </div>
-        </div>
-
-    </main>
-
-    <!-- Character Details Modal (Redesigned) -->
-    <div id="character-modal" class="fixed inset-0 bg-earth-900/60 backdrop-blur-md z-50 hidden items-center justify-center fade-in p-4">
-        <div class="glass-panel bg-white/95 rounded-3xl w-full max-w-2xl max-h-[90vh] overflow-hidden flex flex-col shadow-2xl relative">
-            <button onclick="closeCharacterModal()" class="absolute top-4 right-4 w-8 h-8 flex items-center justify-center rounded-full bg-earth-100 text-earth-600 hover:bg-earth-200 transition z-20">
-                <i class="ph ph-x font-bold"></i>
-            </button>
-            
-            <!-- Modal Body -->
-            <div class="p-6 sm:p-10 overflow-y-auto custom-scrollbar flex-1 relative">
-                
-                <!-- Role Tag -->
-                <div class="absolute top-6 left-6 sm:top-8 sm:left-10 z-10">
-                    <span id="modal-char-role" class="inline-block px-3 py-1 bg-earth-700/90 backdrop-blur text-white text-xs font-medium rounded-full shadow-sm">บทบาท</span>
-                </div>
-
-                <!-- Top Layout: Image + Stats (Matching the Reference Image) -->
-                <div class="flex flex-col sm:flex-row gap-6 sm:gap-10 items-center sm:items-start mb-8 mt-6 sm:mt-0">
-                    
-                    <!-- Left Column: Portrait Image & Name Box -->
-                    <div class="flex flex-col items-center shrink-0 w-48">
-                        <div id="modal-char-image" class="w-full aspect-[3/4] rounded-xl bg-earth-100 shadow-sm border border-earth-200 overflow-hidden flex items-center justify-center text-earth-400 relative">
-                            <!-- Image injected here -->
-                            <i class="ph ph-user text-6xl"></i>
-                        </div>
-                        <div class="mt-4 w-full border border-earth-200 py-2 px-3 rounded bg-white text-center shadow-sm">
-                            <h2 id="modal-char-name" class="font-bold text-earth-900 text-base">ชื่อตัวละคร</h2>
-                        </div>
-                    </div>
-                    
-                    <!-- Right Column: Stats -->
-                    <div class="flex-1 space-y-3 text-earth-900 text-sm sm:pt-4 w-full px-2 sm:px-0">
-                        <p class="flex gap-2"><span class="font-semibold w-24 shrink-0">อายุ:</span> <span id="modal-char-age"></span></p>
-                        <p class="flex gap-2"><span class="font-semibold w-24 shrink-0">วันเกิด:</span> <span id="modal-char-birthday"></span></p>
-                        <p class="flex gap-2"><span class="font-semibold w-24 shrink-0">ส่วนสูง:</span> <span id="modal-char-height"></span></p>
-                        <p class="flex gap-2"><span class="font-semibold w-24 shrink-0">สัญชาติ:</span> <span id="modal-char-nationality"></span></p>
-                        <p class="flex gap-2"><span class="font-semibold w-24 shrink-0">อาชีพ:</span> <span id="modal-char-occupation"></span></p>
-                        <p class="flex gap-2"><span class="font-semibold w-24 shrink-0">MBTI:</span> <span id="modal-char-mbti"></span></p>
-                        <p class="flex gap-2"><span class="font-semibold w-24 shrink-0">สิ่งที่ชอบ:</span> <span id="modal-char-likes"></span></p>
-                        <p class="flex gap-2"><span class="font-semibold w-24 shrink-0">สิ่งที่ไม่ชอบ:</span> <span id="modal-char-dislikes"></span></p>
-                    </div>
-                </div>
-
-                <!-- Middle: Character Description (Centered text like reference) -->
-                <div class="text-center px-2 sm:px-8 mb-8">
-                    <p id="modal-char-desc" class="text-sm text-earth-800 leading-relaxed font-medium whitespace-pre-wrap">คำบรรยายตัวละคร...</p>
-                </div>
-
-                <hr class="border-earth-200/60 my-6">
-
-                <!-- Bottom: Goals, Conflict & Relationships (Kept from original app) -->
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-                    <div class="bg-earth-50/50 p-4 rounded-xl border border-earth-100">
-                        <h3 class="text-sm font-bold text-earth-800 mb-2"><i class="ph ph-target"></i> เป้าหมาย (Goal)</h3>
-                        <p id="modal-char-goal" class="text-xs text-earth-700 whitespace-pre-wrap leading-relaxed">...</p>
-                    </div>
-                    <div class="bg-earth-50/50 p-4 rounded-xl border border-earth-100">
-                        <h3 class="text-sm font-bold text-earth-800 mb-2"><i class="ph ph-warning-octagon"></i> ปมปัญหา/ความขัดแย้ง</h3>
-                        <p id="modal-char-conflict" class="text-xs text-earth-700 whitespace-pre-wrap leading-relaxed">...</p>
-                    </div>
-                </div>
-                
-                <div>
-                    <h3 class="text-sm font-bold text-earth-800 mb-3 border-b border-earth-200 pb-1"><i class="ph ph-git-branch"></i> ความสัมพันธ์</h3>
-                    <div id="modal-char-relationships" class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                        <!-- Related connections injected here -->
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Application Logic -->
-    <script>
-        const fields = [
-            'title', 'genre', 'theme', 'structure', 
-            'setting', 'conflict', 'plotpoints', 'ending', 'extras'
-        ];
-
-        let charactersData = [];
-        let relationshipsData = [];
-        let customRoles = [];
+```javascript:แอปวางพล็อตนิยาย (Novel Plot Dashboard):novel_plot_app.html
+<!-- ... existing code ... -->
         let customRelTypes = [];
         let chaptersData = [];
         let customActs = [];
 
+        // NEW: Project Management Globals
+        let projectsList = [];
+        let currentProjectId = null;
+
         const defaultRoles = ['ตัวเอก (Protagonist)', 'ตัวละครรอง', 'ตัวร้าย (Antagonist)', 'คู่แข่ง (Rival)', 'คนรัก', 'เพื่อน/ครอบครัว', 'ผู้ชี้แนะ (Mentor)'];
-        const defaultRelTypes = ['คนรัก (Lovers)', 'แอบรัก (Crush)', 'ศัตรู/คู่แค้น (Enemies)', 'คู่แข่ง (Rivals)', 'ครอบครัว (Family)', 'เพื่อนสนิท (Friends)', 'เจ้านาย-ลูกน้อง', 'ความแค้นฝังใจ'];
+<!-- ... existing code ... -->
+```
 
-        const staticActs = ['องก์ 1: จุดเริ่มต้น (Setup)', 'องก์ 2: เผชิญหน้า (Confrontation)', 'องก์ 3: บทสรุป (Resolution)', 'ตอนพิเศษ (Extras)'];
-
-        function generateId() {
-            return Math.random().toString(36).substring(2, 11);
-        }
-
-        function showMessage(msg, isConfirm, onConfirm) {
-            const overlay = document.createElement('div');
-            overlay.className = 'fixed inset-0 bg-earth-900/40 backdrop-blur-sm z-50 flex items-center justify-center fade-in';
-            
-            const box = document.createElement('div');
-            box.className = 'glass-panel bg-white/80 p-8 rounded-3xl max-w-sm w-full mx-4 shadow-2xl text-center border border-white';
-            
-            const iconHTML = isConfirm 
-                ? '<i class="ph ph-warning-circle text-5xl text-orange-500 mb-4 inline-block"></i>' 
-                : '<i class="ph ph-info text-5xl text-earth-500 mb-4 inline-block"></i>';
-            
-            const cancelBtnHTML = isConfirm 
-                ? '<button id="btn-cancel-msg" class="px-4 py-2 rounded-xl bg-earth-200 text-earth-800 font-medium hover:bg-earth-300 transition">ยกเลิก</button>' 
-                : '';
-                
-            const okText = isConfirm ? 'ยืนยัน' : 'ตกลง';
-
-            box.innerHTML = `
-                ${iconHTML}
-                <p class="text-lg text-earth-900 font-medium mb-6">${msg}</p>
-                <div class="flex gap-3 justify-center">
-                    ${cancelBtnHTML}
-                    <button id="btn-ok-msg" class="px-6 py-2 rounded-xl bg-earth-700 text-white font-medium hover:bg-earth-800 transition shadow-md">${okText}</button>
-                </div>
-            `;
-            
-            overlay.appendChild(box);
-            document.body.appendChild(overlay);
-
-            document.getElementById('btn-ok-msg').onclick = function() {
-                document.body.removeChild(overlay);
-                if(isConfirm && onConfirm) onConfirm();
-            };
-            
-            if(isConfirm) {
-                document.getElementById('btn-cancel-msg').onclick = function() {
-                    document.body.removeChild(overlay);
-                };
-            }
-        }
-
-        function showInputPrompt(msg, placeholder, onConfirm, onCancel) {
-            const overlay = document.createElement('div');
-            overlay.className = 'fixed inset-0 bg-earth-900/60 backdrop-blur-sm z-[60] flex items-center justify-center fade-in px-4';
-
-            const box = document.createElement('div');
-            box.className = 'glass-panel bg-white/95 p-6 rounded-3xl max-w-sm w-full shadow-2xl border border-white relative';
-
-            box.innerHTML = `
-                <div class="flex items-center gap-3 mb-4 text-earth-800">
-                    <i class="ph ph-pencil-simple text-2xl text-earth-600"></i>
-                    <h3 class="text-lg font-bold">${msg}</h3>
-                </div>
-                <input type="text" id="prompt-input" class="glass-input w-full px-4 py-3 rounded-xl text-earth-900 mb-6 focus:outline-none" placeholder="${placeholder}">
-                <div class="flex gap-3 justify-end">
-                    <button id="btn-cancel-prompt" class="px-4 py-2 rounded-xl text-earth-600 font-medium hover:bg-earth-100 transition">ยกเลิก</button>
-                    <button id="btn-ok-prompt" class="px-6 py-2 rounded-xl bg-earth-700 text-white font-medium hover:bg-earth-800 transition shadow-md">ตกลง</button>
-                </div>
-            `;
-
-            overlay.appendChild(box);
-            document.body.appendChild(overlay);
-
-            const inputField = document.getElementById('prompt-input');
-            inputField.focus();
-
-            inputField.addEventListener('keypress', function(e) {
-                if (e.key === 'Enter') document.getElementById('btn-ok-prompt').click();
-            });
-
-            document.getElementById('btn-ok-prompt').onclick = function() {
-                const val = inputField.value;
-                document.body.removeChild(overlay);
-                if (onConfirm) onConfirm(val);
-            };
-
+```javascript:แอปวางพล็อตนิยาย (Novel Plot Dashboard):novel_plot_app.html
+<!-- ... existing code ... -->
             document.getElementById('btn-cancel-prompt').onclick = function() {
                 document.body.removeChild(overlay);
                 if (onCancel) onCancel();
             };
         }
 
+        // --- NEW: Project Management System ---
+
         function initApp() {
-            loadData();
-            renderCharactersForm();
-            renderRelationshipsForm();
-            renderChaptersSetup();
-            updateDashboard();
-        }
+            const oldData = localStorage.getItem('novelCraftData');
+            const savedProjects = localStorage.getItem('novelCraftProjects');
+            const savedCurrentId = localStorage.getItem('novelCraftCurrentId');
 
-        function saveData() {
-            const data = {};
-            fields.forEach(function(field) {
-                const element = document.getElementById(`input-${field}`);
-                if(element) data[field] = element.value;
-            });
-            
-            data.charactersList = charactersData;
-            data.relationshipsList = relationshipsData;
-            data.customRolesData = customRoles;
-            data.customRelTypesData = customRelTypes;
-            data.chaptersDataList = chaptersData;
-            data.customActsData = customActs;
-
-            localStorage.setItem('novelCraftData', JSON.stringify(data));
-            
-            const status = document.getElementById('save-status');
-            if(status) {
-                status.innerHTML = 'กำลังบันทึก...';
-                status.previousElementSibling.className = 'ph ph-spinner animate-spin text-earth-500 text-base';
-                
-                setTimeout(function() {
-                    status.innerHTML = 'บันทึกอัตโนมัติแล้ว';
-                    status.previousElementSibling.className = 'ph ph-check-circle text-green-600 text-base';
-                }, 500);
-            }
-
-            updateDashboard();
-        }
-
-        function loadData() {
-            const savedData = localStorage.getItem('novelCraftData');
-            if (savedData) {
-                try {
-                    const data = JSON.parse(savedData);
-                    fields.forEach(function(field) {
-                        const element = document.getElementById(`input-${field}`);
-                        if(element && data[field]) {
-                            element.value = data[field];
-                        }
-                    });
-                    
-                    if (data.charactersList) charactersData = data.charactersList;
-                    if (data.relationshipsList) relationshipsData = data.relationshipsList;
-                    if (data.customRolesData) customRoles = data.customRolesData;
-                    if (data.customRelTypesData) customRelTypes = data.customRelTypesData;
-                    if (data.chaptersDataList) chaptersData = data.chaptersDataList;
-                    if (data.customActsData) customActs = data.customActsData;
-                } catch (e) {
-                    console.error("Data parse error", e);
-                }
+            if (savedProjects) {
+                projectsList = JSON.parse(savedProjects);
+                currentProjectId = savedCurrentId && projectsList.some(p => p.id === savedCurrentId) ? savedCurrentId : projectsList[0].id;
+            } else if (oldData) {
+                // Migrate โอนย้ายข้อมูลเดิมของผู้ใช้มาเป็นระบบใหม่
+                const parsedOld = JSON.parse(oldData);
+                const newId = generateId();
+                projectsList = [{
+                    id: newId,
+                    title: parsedOld.title || 'นิยายเรื่องแรก',
+                    isCompleted: false,
+                    data: parsedOld
+                }];
+                currentProjectId = newId;
+                localStorage.removeItem('novelCraftData'); // ลบข้อมูลรูปแบบเก่าทิ้ง
             } else {
-                addCharacter(true); 
+                // สำหรับผู้ใช้ใหม่แกะกล่อง
+                createNewProject(true);
+                return;
             }
+
+            loadCurrentProjectToForm();
         }
 
-        function clearData() {
-            showMessage("คุณแน่ใจหรือไม่ว่าต้องการล้างข้อมูลพล็อตทั้งหมด? (ไม่สามารถกู้คืนได้)", true, function() {
-                localStorage.removeItem('novelCraftData');
+        function createNewProject(isInitial = false) {
+            const newId = generateId();
+            const newProject = {
+                id: newId,
+                title: 'นิยายเรื่องใหม่',
+                isCompleted: false,
+                data: {}
+            };
+            projectsList.push(newProject);
+            currentProjectId = newId;
+            
+            if(!isInitial) {
+                // ล้างช่องกรอกทั้งหมดเพื่อเริ่มเรื่องใหม่
                 fields.forEach(function(field) {
-                    const element = document.getElementById(`input-${field}`);
-                    if(element) element.value = '';
+                    const el = document.getElementById(`input-${field}`);
+                    if(el) el.value = '';
                 });
-                
                 charactersData = [];
                 relationshipsData = [];
                 customRoles = [];
@@ -690,724 +131,172 @@
                 chaptersData = [];
                 customActs = [];
                 
-                addCharacter(true); 
-                renderCharactersForm();
-                renderRelationshipsForm();
-                renderChaptersSetup();
-                updateDashboard();
+                addCharacter(true);
+                saveData(); // บันทึกสถานะหน้าว่างทันที
+                loadCurrentProjectToForm();
                 switchTab('form');
-            });
-        }
-
-        function addCharacter(isInitial) {
-            charactersData.push({
-                id: generateId(),
-                name: '',
-                role: 'ตัวเอก (Protagonist)',
-                desc: '',
-                goal: '',
-                conflict: '',
-                image: '',
-                // New fields for the profile card
-                age: '', birthday: '', height: '', nationality: '', 
-                occupation: '', mbti: '', likes: '', dislikes: ''
-            });
-            if(isInitial !== true) {
-                renderCharactersForm();
-                renderRelationshipsForm(); 
-                saveData();
             }
         }
 
-        function updateChar(id, field, value) {
-            const char = charactersData.find(function(c) { return c.id === id; });
-            if(char) {
-                char[field] = value;
-                saveData();
-                if(field === 'name') renderRelationshipsForm(); 
-            }
+        function switchProject(id) {
+            if(id === currentProjectId) return;
+            saveData(); // เซฟเรื่องปัจจุบันก่อนสลับ
+            currentProjectId = id;
+            loadCurrentProjectToForm();
+            switchTab('form');
         }
 
-        function deleteChar(id) {
-            showMessage("ต้องการลบตัวละครนี้ใช่หรือไม่?", true, function() {
-                charactersData = charactersData.filter(function(c) { return c.id !== id; });
-                relationshipsData = relationshipsData.filter(function(r) { return r.char1 !== id && r.char2 !== id; });
-                renderCharactersForm();
-                renderRelationshipsForm();
-                saveData();
-            });
-        }
-
-        function handleRoleChange(charId, selectElement) {
-            const val = selectElement.value;
-            const char = charactersData.find(function(c) { return c.id === charId; });
-            const prevRole = char.role;
-
-            if (val === '_add_new_') {
-                showInputPrompt("กำหนดบทบาทตัวละครใหม่:", "เช่น เทพเจ้า, สัตว์เลี้ยง, AI...", function(newValue) {
-                    if (newValue && newValue.trim() !== "") {
-                        const cleanValue = newValue.trim();
-                        if(!customRoles.includes(cleanValue) && !defaultRoles.includes(cleanValue)) {
-                            customRoles.push(cleanValue);
-                        }
-                        updateChar(charId, 'role', cleanValue);
-                        renderCharactersForm(); 
-                    } else {
-                        selectElement.value = prevRole; 
-                    }
-                }, function() {
-                     selectElement.value = prevRole; 
-                });
-            } else {
-                updateChar(charId, 'role', val);
-            }
-        }
-
-        function handleImageUpload(id, input) {
-            if (input.files && input.files[0]) {
-                const file = input.files[0];
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    const img = new Image();
-                    img.onload = function() {
-                        const canvas = document.createElement('canvas');
-                        const ctx = canvas.getContext('2d');
-                        const MAX_WIDTH = 400; 
-                        const MAX_HEIGHT = 600;
-                        let width = img.width;
-                        let height = img.height;
-
-                        if (width > height) {
-                            if (width > MAX_WIDTH) {
-                                height *= MAX_WIDTH / width;
-                                width = MAX_WIDTH;
-                            }
-                        } else {
-                            if (height > MAX_HEIGHT) {
-                                width *= MAX_HEIGHT / height;
-                                height = MAX_HEIGHT;
-                            }
-                        }
-                        canvas.width = width;
-                        canvas.height = height;
-                        ctx.drawImage(img, 0, 0, width, height);
-                        
-                        const dataUrl = canvas.toDataURL('image/jpeg', 0.8);
-                        updateChar(id, 'image', dataUrl);
-                        renderCharactersForm();
-                    }
-                    img.src = e.target.result;
-                }
-                reader.readAsDataURL(file);
-            }
-        }
-
-        function renderCharactersForm() {
-            const container = document.getElementById('character-list-container');
-            if(!container) return;
-            
-            const allRoles = defaultRoles.concat(customRoles);
-            
-            let htmlStr = '';
-            charactersData.forEach(function(char) {
-                const hasCurrentRole = allRoles.includes(char.role);
-                let extraOption = '';
-                if (!hasCurrentRole && char.role) {
-                    extraOption = `<option value="${char.role}" selected>${char.role}</option>`;
-                }
-
-                let optionsHtml = '';
-                allRoles.forEach(function(r) {
-                    const selected = (char.role === r) ? 'selected' : '';
-                    optionsHtml += `<option value="${r}" ${selected}>${r}</option>`;
-                });
-
-                htmlStr += `
-                <div class="bg-white/60 p-4 rounded-xl border border-white shadow-sm relative group fade-in">
-                    <button onclick="deleteChar('${char.id}')" class="absolute top-3 right-3 text-earth-300 hover:text-red-500 transition opacity-0 group-hover:opacity-100 z-10" title="ลบตัวละคร">
-                        <i class="ph ph-trash-fill text-lg"></i>
-                    </button>
-                    
-                    <div class="flex flex-col sm:flex-row gap-4 mb-3 pr-6 items-start">
-                        <!-- Image Upload Area -->
-                        <div class="relative w-20 h-24 sm:w-24 sm:h-32 shrink-0 group/img">
-                            <input type="file" accept="image/*" class="hidden" id="img-upload-${char.id}" onchange="handleImageUpload('${char.id}', this)">
-                            <label for="img-upload-${char.id}" class="w-full h-full rounded-xl flex items-center justify-center cursor-pointer border-2 border-dashed border-earth-300 hover:border-earth-500 overflow-hidden bg-white/50 transition relative shadow-sm">
-                                ${char.image ? `<img src="${char.image}" class="w-full h-full object-cover">` : `<i class="ph ph-image text-3xl text-earth-400"></i>`}
-                                <div class="absolute inset-0 bg-black/50 hidden group-hover/img:flex items-center justify-center text-white text-xs font-medium text-center leading-tight backdrop-blur-sm transition-all">เปลี่ยน<br>รูป</div>
-                            </label>
-                        </div>
-                        
-                        <div class="flex-1 flex flex-col gap-3 w-full mt-1">
-                            <div class="flex flex-col sm:flex-row gap-2 w-full">
-                                <input type="text" value="${char.name}" oninput="updateChar('${char.id}', 'name', this.value)" placeholder="ชื่อตัวละคร (เช่น แฮร์รี่)" class="w-full sm:w-2/3 bg-transparent border-b border-earth-300 focus:border-earth-600 outline-none px-1 py-1 text-earth-900 font-bold text-lg">
-                                <select onchange="handleRoleChange('${char.id}', this)" class="w-full sm:w-1/3 bg-earth-50 border border-earth-200 text-xs rounded-lg px-2 py-1.5 text-earth-700 outline-none font-medium">
-                                    ${optionsHtml}
-                                    ${extraOption}
-                                    <option disabled>──────</option>
-                                    <option value="_add_new_" class="font-bold text-earth-700">+ เพิ่มเติม (พิมพ์เอง)</option>
-                                </select>
-                            </div>
-                            <textarea oninput="updateChar('${char.id}', 'desc', this.value)" rows="3" placeholder="บรรยายลักษณะ, นิสัย (ข้อความส่วนนี้จะโชว์ตรงกลางแบบในรูปตัวอย่าง)..." class="w-full bg-white/50 border border-earth-200 rounded-lg px-3 py-2 text-sm text-earth-800 placeholder-earth-400 focus:outline-none focus:border-earth-400 resize-none">${char.desc}</textarea>
-                        </div>
-                    </div>
-                    
-                    <!-- Collapsible Extra Stats section -->
-                    <details class="mb-3 group/stats">
-                        <summary class="cursor-pointer text-xs text-earth-500 font-medium hover:text-earth-700 transition flex items-center gap-1 select-none w-fit bg-earth-100/50 px-3 py-1.5 rounded-lg border border-earth-200">
-                            <i class="ph ph-caret-right group-open/stats:rotate-90 transition-transform"></i> ใส่ข้อมูลโปรไฟล์ (อายุ, วันเกิด, MBTI ฯลฯ)
-                        </summary>
-                        <div class="mt-3 pt-3 border-t border-earth-200/50 grid grid-cols-2 sm:grid-cols-3 gap-2">
-                            <input type="text" value="${char.age || ''}" oninput="updateChar('${char.id}', 'age', this.value)" placeholder="อายุ (เช่น 23 ปี)" class="w-full bg-white border border-earth-200 rounded-md px-2 py-1.5 text-xs text-earth-800 outline-none focus:border-earth-400">
-                            <input type="text" value="${char.birthday || ''}" oninput="updateChar('${char.id}', 'birthday', this.value)" placeholder="วันเกิด (เช่น 14 ก.พ.)" class="w-full bg-white border border-earth-200 rounded-md px-2 py-1.5 text-xs text-earth-800 outline-none focus:border-earth-400">
-                            <input type="text" value="${char.height || ''}" oninput="updateChar('${char.id}', 'height', this.value)" placeholder="ส่วนสูง (เช่น 169 cm)" class="w-full bg-white border border-earth-200 rounded-md px-2 py-1.5 text-xs text-earth-800 outline-none focus:border-earth-400">
-                            <input type="text" value="${char.nationality || ''}" oninput="updateChar('${char.id}', 'nationality', this.value)" placeholder="สัญชาติ (เช่น ไทย)" class="w-full bg-white border border-earth-200 rounded-md px-2 py-1.5 text-xs text-earth-800 outline-none focus:border-earth-400">
-                            <input type="text" value="${char.occupation || ''}" oninput="updateChar('${char.id}', 'occupation', this.value)" placeholder="อาชีพ (เช่น พาร์ทไทม์)" class="w-full bg-white border border-earth-200 rounded-md px-2 py-1.5 text-xs text-earth-800 outline-none focus:border-earth-400">
-                            <input type="text" value="${char.mbti || ''}" oninput="updateChar('${char.id}', 'mbti', this.value)" placeholder="MBTI (เช่น ESFJ)" class="w-full bg-white border border-earth-200 rounded-md px-2 py-1.5 text-xs text-earth-800 outline-none focus:border-earth-400">
-                            <input type="text" value="${char.likes || ''}" oninput="updateChar('${char.id}', 'likes', this.value)" placeholder="สิ่งที่ชอบ" class="w-full sm:col-span-1 bg-white border border-earth-200 rounded-md px-2 py-1.5 text-xs text-earth-800 outline-none focus:border-earth-400">
-                            <input type="text" value="${char.dislikes || ''}" oninput="updateChar('${char.id}', 'dislikes', this.value)" placeholder="สิ่งที่ไม่ชอบ" class="w-full sm:col-span-2 bg-white border border-earth-200 rounded-md px-2 py-1.5 text-xs text-earth-800 outline-none focus:border-earth-400">
-                        </div>
-                    </details>
-
-                    <div class="space-y-2">
-                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                            <textarea oninput="updateChar('${char.id}', 'goal', this.value)" rows="2" placeholder="เป้าหมายที่ต้องการ" class="w-full bg-white/50 border border-earth-200 rounded-lg px-3 py-2 text-xs text-earth-800 placeholder-earth-400 focus:outline-none focus:border-earth-400 resize-none">${char.goal}</textarea>
-                            <textarea oninput="updateChar('${char.id}', 'conflict', this.value)" rows="2" placeholder="ปมในใจ / จุดอ่อน" class="w-full bg-white/50 border border-earth-200 rounded-lg px-3 py-2 text-xs text-earth-800 placeholder-earth-400 focus:outline-none focus:border-earth-400 resize-none">${char.conflict}</textarea>
-                        </div>
-                    </div>
-                </div>`;
-            });
-            container.innerHTML = htmlStr;
-        }
-
-        function addRelationship() {
-            if(charactersData.length < 2) {
-                showMessage("ต้องมีตัวละครอย่างน้อย 2 ตัว จึงจะสร้างความสัมพันธ์ได้");
-                return;
-            }
-            relationshipsData.push({
-                id: generateId(),
-                char1: charactersData[0].id,
-                type: 'คนรัก (Lovers)',
-                char2: charactersData[1].id,
-                desc: ''
-            });
-            renderRelationshipsForm();
-            saveData();
-        }
-
-        function updateRel(id, field, value) {
-            const rel = relationshipsData.find(function(r) { return r.id === id; });
-            if(rel) {
-                rel[field] = value;
-                saveData();
-            }
-        }
-
-        function deleteRel(id) {
-            relationshipsData = relationshipsData.filter(function(r) { return r.id !== id; });
-            renderRelationshipsForm();
-            saveData();
-        }
-
-        function handleRelTypeChange(relId, selectElement) {
-            const val = selectElement.value;
-            const rel = relationshipsData.find(function(r) { return r.id === relId; });
-            const prevType = rel.type;
-
-            if (val === '_add_new_') {
-                showInputPrompt("กำหนดสถานะความสัมพันธ์ใหม่:", "เช่น ลูกหนี้, คนรู้จัก, แฝด...", function(newValue) {
-                    if (newValue && newValue.trim() !== "") {
-                        const cleanValue = newValue.trim();
-                        if(!customRelTypes.includes(cleanValue) && !defaultRelTypes.includes(cleanValue)) {
-                            customRelTypes.push(cleanValue);
-                        }
-                        updateRel(relId, 'type', cleanValue);
-                        renderRelationshipsForm(); 
-                    } else {
-                        selectElement.value = prevType; 
-                    }
-                }, function() {
-                     selectElement.value = prevType; 
-                });
-            } else {
-                updateRel(relId, 'type', val);
-            }
-        }
-
-        function renderRelationshipsForm() {
-            const container = document.getElementById('relationship-list-container');
-            if(!container) return;
-
-            if(charactersData.length < 2) {
-                container.innerHTML = '<p class="text-xs text-earth-400 italic mb-2">เพิ่มตัวละครอย่างน้อย 2 ตัว เพื่อโยงความสัมพันธ์</p>';
-                return;
-            }
-
-            const allTypes = defaultRelTypes.concat(customRelTypes);
-            let htmlStr = '';
-
-            relationshipsData.forEach(function(rel) {
-                const hasCurrentType = allTypes.includes(rel.type);
-                let extraTypeOption = '';
-                if (!hasCurrentType && rel.type) {
-                    extraTypeOption = `<option value="${rel.type}" selected>${rel.type}</option>`;
-                }
-
-                let typesHtml = '';
-                allTypes.forEach(function(t) {
-                    const selected = (rel.type === t) ? 'selected' : '';
-                    typesHtml += `<option value="${t}" ${selected}>${t}</option>`;
-                });
-
-                let chars1Html = '';
-                let chars2Html = '';
-                charactersData.forEach(function(c) {
-                    const nameLabel = c.name || '(ไม่ระบุชื่อ)';
-                    const sel1 = (rel.char1 === c.id) ? 'selected' : '';
-                    const sel2 = (rel.char2 === c.id) ? 'selected' : '';
-                    chars1Html += `<option value="${c.id}" ${sel1}>${nameLabel}</option>`;
-                    chars2Html += `<option value="${c.id}" ${sel2}>${nameLabel}</option>`;
-                });
-
-                htmlStr += `
-                <div class="flex flex-col md:flex-row items-center gap-2 bg-white/40 p-2 rounded-xl border border-white fade-in">
-                    <div class="flex flex-col sm:flex-row items-center gap-2 w-full md:w-auto flex-1">
-                        <select onchange="updateRel('${rel.id}', 'char1', this.value)" class="w-full sm:flex-1 bg-white border border-earth-200 text-sm rounded-lg py-1.5 px-2 text-earth-800 outline-none truncate">
-                            ${chars1Html}
-                        </select>
-                        <select onchange="handleRelTypeChange('${rel.id}', this)" class="w-full sm:w-[130px] bg-earth-100 border-none text-xs rounded-lg py-1.5 px-2 text-earth-700 outline-none font-medium text-center shrink-0">
-                            ${typesHtml}
-                            ${extraTypeOption}
-                            <option disabled>──────</option>
-                            <option value="_add_new_" class="font-bold text-earth-700">+ เพิ่มเติม...</option>
-                        </select>
-                        <select onchange="updateRel('${rel.id}', 'char2', this.value)" class="w-full sm:flex-1 bg-white border border-earth-200 text-sm rounded-lg py-1.5 px-2 text-earth-800 outline-none truncate">
-                            ${chars2Html}
-                        </select>
-                    </div>
-                    <input type="text" value="${rel.desc}" oninput="updateRel('${rel.id}', 'desc', this.value)" placeholder="รายละเอียดปม/เหตุผล..." class="w-full md:w-1/3 bg-transparent border-b border-earth-300 focus:border-earth-500 outline-none text-sm px-2 py-1 mt-2 md:mt-0">
-                    <button onclick="deleteRel('${rel.id}')" class="text-earth-300 hover:text-red-500 p-1 self-end md:self-auto hidden md:block">
-                        <i class="ph ph-x text-lg"></i>
-                    </button>
-                    <!-- Mobile delete button -->
-                    <button onclick="deleteRel('${rel.id}')" class="md:hidden w-full text-xs text-red-400 mt-2 py-1 border border-red-200 rounded-lg hover:bg-red-50">
-                        ลบความสัมพันธ์นี้
-                    </button>
-                </div>`;
-            });
-            container.innerHTML = htmlStr;
-        }
-
-        // --- CHAPTER MANAGEMENT LOGIC ---
-
-        function getActNames() {
-            return staticActs.concat(customActs);
-        }
-
-        function handleActChange(chId, selectElement) {
-            const val = selectElement.value;
-            const ch = chaptersData.find(function(c) { return c.id === chId; });
-            const prevAct = ch.act;
-
-            if (val === '_add_new_') {
-                showInputPrompt("กำหนดองก์/หมวดหมู่ใหม่:", "เช่น ปฐมบท, ภาคอดีต, ซีซั่น 2...", function(newValue) {
-                    if (newValue && newValue.trim() !== "") {
-                        const cleanValue = newValue.trim();
-                        if(!customActs.includes(cleanValue) && !staticActs.includes(cleanValue)) {
-                            customActs.push(cleanValue);
-                        }
-                        updateChapterProp(chId, 'act', cleanValue);
-                        renderChaptersSetup(); 
-                    } else {
-                        selectElement.value = prevAct; 
-                    }
-                }, function() {
-                     selectElement.value = prevAct; 
-                });
-            } else {
-                updateChapterProp(chId, 'act', val);
-            }
-        }
-
-        function generateChapters() {
-            const countInput = document.getElementById('input-chapter-count');
-            const count = parseInt(countInput.value);
-            
-            if (isNaN(count) || count <= 0) {
-                showMessage("โปรดระบุจำนวนตอนที่ถูกต้อง (มากกว่า 0)");
-                return;
-            }
-            
-            if (chaptersData.length > 0) {
-                showMessage("การสร้างผังรายตอนใหม่ จะลบทับข้อมูลตอนและสถานะความคืบหน้าเดิมทั้งหมด คุณยืนยันหรือไม่?", true, function() {
-                    createNewChapters(count);
-                });
-            } else {
-                createNewChapters(count);
-            }
-        }
-
-        function createNewChapters(count) {
-            chaptersData = [];
-            const firstAct = getActNames()[0];
-            for (let i = 1; i <= count; i++) {
-                chaptersData.push({
-                    id: generateId(),
-                    num: i,
-                    title: '',
-                    act: firstAct,
-                    completed: false
-                });
-            }
-            renderChaptersSetup();
-            saveData();
-        }
-        
-        function addSingleChapter() {
-            const firstAct = getActNames()[0];
-            const newNum = chaptersData.length > 0 ? chaptersData.length + 1 : 1;
-            chaptersData.push({
-                id: generateId(),
-                num: newNum,
-                title: '',
-                act: firstAct,
-                completed: false
-            });
-            renderChaptersSetup();
-            saveData();
-            
-            // Scroll to bottom of list
-            setTimeout(() => {
-                const list = document.getElementById('chapter-setup-list');
-                if(list) list.scrollTop = list.scrollHeight;
-            }, 100);
-        }
-        
-        function deleteChapter(id) {
-            showMessage("ต้องการลบตอนนี้ใช่หรือไม่?", true, function() {
-                chaptersData = chaptersData.filter(c => c.id !== id);
-                // Re-number
-                chaptersData.forEach((c, index) => {
-                    c.num = index + 1;
-                });
-                renderChaptersSetup();
-                saveData();
-            });
-        }
-
-        function updateChapterProp(id, prop, value) {
-            const ch = chaptersData.find(c => c.id === id);
-            if(ch) {
-                ch[prop] = value;
-                saveData();
-            }
-        }
-
-        function toggleChapterComplete(id) {
-            const ch = chaptersData.find(c => c.id === id);
-            if(ch) {
-                ch.completed = !ch.completed;
-                saveData(); 
-            }
-        }
-
-        function renderChaptersSetup() {
-            const container = document.getElementById('chapter-setup-list');
-            if(!container) return;
-
-            if(chaptersData.length === 0) {
-                container.innerHTML = '<p class="text-sm text-earth-400 italic text-center py-4">- ยังไม่ได้สร้างผังรายตอน -</p>';
-                return;
-            }
-
-            let htmlStr = '';
-            const actsList = getActNames();
-            
-            chaptersData.forEach(function(ch) {
-                let optionsHtml = '';
+        function deleteProject(id) {
+            showMessage("คุณแน่ใจหรือไม่ว่าต้องการลบนิยายเรื่องนี้? (ลบแล้วกู้คืนไม่ได้)", true, function() {
+                projectsList = projectsList.filter(p => p.id !== id);
                 
-                let currentAct = ch.act;
-                let extraOption = '';
-                if (!actsList.includes(currentAct) && currentAct) {
-                    extraOption = `<option value="${currentAct}" selected>${currentAct}</option>`;
-                } else if (!currentAct && actsList.length > 0) {
-                    currentAct = actsList[0];
-                    ch.act = currentAct;
+                if(projectsList.length === 0) {
+                    createNewProject(false); // ถ้าลบจนหมด ให้สร้างเรื่องว่างๆ ขึ้นมา 1 เรื่อง
+                } else if (currentProjectId === id) {
+                    currentProjectId = projectsList[0].id; // ถ้าลบเรื่องที่กำลังเปิดอยู่ ให้เด้งไปเรื่องแรก
+                    loadCurrentProjectToForm();
+                } else {
+                    saveProjectsState();
+                    renderProjectsList();
                 }
+            });
+        }
 
-                actsList.forEach(function(act) {
-                    const sel = (currentAct === act) ? 'selected' : '';
-                    optionsHtml += `<option value="${act}" ${sel}>${act}</option>`;
-                });
+        function toggleProjectStatus(id) {
+            const proj = projectsList.find(p => p.id === id);
+            if(proj) {
+                proj.isCompleted = !proj.isCompleted;
+                saveProjectsState();
+                renderProjectsList();
+                updateDashboard();
+            }
+        }
+
+        function saveProjectsState() {
+            localStorage.setItem('novelCraftProjects', JSON.stringify(projectsList));
+            localStorage.setItem('novelCraftCurrentId', currentProjectId);
+        }
+
+        function saveData() {
+            const currentData = {};
+            fields.forEach(function(field) {
+                const element = document.getElementById(`input-${field}`);
+                if(element) currentData[field] = element.value;
+            });
+            
+            currentData.charactersList = charactersData;
+            currentData.relationshipsList = relationshipsData;
+            currentData.customRolesData = customRoles;
+            currentData.customRelTypesData = customRelTypes;
+            currentData.chaptersDataList = chaptersData;
+            currentData.customActsData = customActs;
+
+            // อัปเดตข้อมูลใส่โปรเจกต์ที่กำลังทำงานอยู่
+            const projIndex = projectsList.findIndex(p => p.id === currentProjectId);
+            if(projIndex > -1) {
+                projectsList[projIndex].data = currentData;
+                projectsList[projIndex].title = currentData.title || 'นิยายไร้ชื่อ';
+            }
+
+            saveProjectsState();
+            
+            const status = document.getElementById('save-status');
+            if(status) {
+                status.innerHTML = 'กำลังบันทึก...';
+                status.previousElementSibling.className = 'ph ph-spinner animate-spin text-earth-500 text-base';
+                setTimeout(function() {
+                    status.innerHTML = 'บันทึกอัตโนมัติแล้ว';
+                    status.previousElementSibling.className = 'ph ph-check-circle text-green-600 text-base';
+                }, 500);
+            }
+
+            renderProjectsList();
+            updateDashboard();
+        }
+
+        function loadCurrentProjectToForm() {
+            const proj = projectsList.find(p => p.id === currentProjectId);
+            if(!proj) return;
+
+            const data = proj.data || {};
+            
+            fields.forEach(function(field) {
+                const element = document.getElementById(`input-${field}`);
+                if(element) {
+                    element.value = data[field] || '';
+                }
+            });
+            
+            charactersData = data.charactersList || [];
+            relationshipsData = data.relationshipsList || [];
+            customRoles = data.customRolesData || [];
+            customRelTypes = data.customRelTypesData || [];
+            chaptersData = data.chaptersDataList || [];
+            customActs = data.customActsData || [];
+
+            if(charactersData.length === 0) addCharacter(true);
+
+            renderCharactersForm();
+            renderRelationshipsForm();
+            renderChaptersSetup();
+            renderProjectsList();
+            updateDashboard();
+        }
+
+        function renderProjectsList() {
+            const container = document.getElementById('project-list-container');
+            if(!container) return;
+
+            let htmlStr = '';
+            projectsList.forEach(proj => {
+                const isActive = proj.id === currentProjectId;
+                const activeClasses = isActive ? 'bg-earth-100 border-earth-300 shadow-sm' : 'bg-transparent border-transparent hover:bg-white/50 text-earth-600';
+                const titleColor = isActive ? 'text-earth-900 font-bold' : 'text-earth-700 font-medium';
+                
+                const checkIcon = proj.isCompleted 
+                    ? `<button onclick="toggleProjectStatus('${proj.id}')" title="สถานะ: แต่งจบแล้ว (คลิกเพื่อยกเลิก)" class="text-green-600 hover:text-earth-400 z-10 shrink-0"><i class="ph ph-check-circle-fill text-base"></i></button>`
+                    : `<button onclick="toggleProjectStatus('${proj.id}')" title="สถานะ: กำลังแต่ง (คลิกเพื่อตั้งว่าจบแล้ว)" class="text-earth-300 hover:text-green-500 z-10 shrink-0"><i class="ph ph-circle text-base"></i></button>`;
 
                 htmlStr += `
-                <div class="flex flex-col md:flex-row items-center gap-3 bg-white/60 p-3 rounded-xl border border-white shadow-sm fade-in relative group/ch">
-                    <button onclick="deleteChapter('${ch.id}')" class="absolute -top-2 -right-2 w-6 h-6 bg-red-100 text-red-500 rounded-full flex items-center justify-center opacity-0 group-hover/ch:opacity-100 transition shadow-sm hover:bg-red-500 hover:text-white z-10" title="ลบตอนนี้">
-                        <i class="ph ph-x text-xs font-bold"></i>
-                    </button>
-                    <div class="w-20 shrink-0 text-center bg-earth-100 py-1.5 rounded-lg text-earth-800 font-bold text-sm">
-                        ตอนที่ ${ch.num}
+                <li class="flex items-center gap-2 px-2 py-1.5 rounded-lg border transition relative group ${activeClasses}">
+                    ${checkIcon}
+                    <div onclick="switchProject('${proj.id}')" class="flex-1 truncate text-xs cursor-pointer ${titleColor} pr-6 py-1" title="${proj.title || 'นิยายไร้ชื่อ'}">
+                        ${proj.title || 'นิยายไร้ชื่อ'}
                     </div>
-                    <input type="text" value="${ch.title}" oninput="updateChapterProp('${ch.id}', 'title', this.value)" placeholder="ชื่อตอน / พล็อตย่อ..." class="flex-1 bg-transparent border-b border-earth-300 focus:border-earth-600 outline-none px-2 py-1 text-sm text-earth-900 w-full">
-                    <select onchange="handleActChange('${ch.id}', this)" class="w-full md:w-auto bg-earth-50 border border-earth-200 text-xs rounded-lg px-2 py-2 text-earth-700 outline-none font-medium shrink-0 max-w-full md:max-w-[170px] truncate">
-                        ${optionsHtml}
-                        ${extraOption}
-                        <option disabled>──────</option>
-                        <option value="_add_new_" class="font-bold text-earth-700">+ เพิ่มเติม...</option>
-                    </select>
-                </div>
+                    <button onclick="deleteProject('${proj.id}')" class="absolute right-2 top-1/2 -translate-y-1/2 w-6 h-6 flex items-center justify-center rounded text-red-400 opacity-0 group-hover:opacity-100 hover:bg-red-50 hover:text-red-600 transition shrink-0 z-10" title="ลบเรื่องนี้">
+                        <i class="ph ph-trash"></i>
+                    </button>
+                </li>
                 `;
             });
             container.innerHTML = htmlStr;
-            
-            const countInput = document.getElementById('input-chapter-count');
-            if(countInput) {
-                countInput.value = chaptersData.length;
-            }
         }
 
-        // --- END CHAPTER LOGIC ---
+        // --- END: Project Management System ---
 
-        function updateDashboard() {
-            fields.forEach(function(field) {
-                const inputElement = document.getElementById(`input-${field}`);
-                let inputVal = '';
-                if(inputElement && inputElement.value) {
-                    inputVal = inputElement.value.trim();
-                }
-                
-                const dashElement = document.getElementById(`dash-${field}`);
-                if (dashElement) {
-                    if (inputVal) {
-                        dashElement.textContent = inputVal;
-                        dashElement.classList.remove('text-earth-400', 'italic');
-                    } else {
-                        if(field === 'title') dashElement.textContent = 'ยังไม่ได้ตั้งชื่อเรื่อง';
-                        else if(field === 'genre') dashElement.textContent = 'ระบุแนวเรื่อง';
-                        else dashElement.textContent = '- ยังไม่ได้ระบุข้อมูลส่วนนี้ -';
-                        
-                        if(field !== 'title' && field !== 'genre') {
-                            dashElement.classList.add('text-earth-400', 'italic');
-                        }
-                    }
-                }
-            });
+        function addCharacter(isInitial) {
+<!-- ... existing code ... -->
+```
 
+```javascript:แอปวางพล็อตนิยาย (Novel Plot Dashboard):novel_plot_app.html
+<!-- ... existing code ... -->
             const badgeContainer = document.getElementById('dash-characters-badges');
+            
+            // Show/Hide Completed Badge
+            const dashCompleted = document.getElementById('dash-completed-badge');
+            if(dashCompleted && projectsList.length > 0) {
+                const proj = projectsList.find(p => p.id === currentProjectId);
+                if(proj && proj.isCompleted) {
+                    dashCompleted.classList.remove('hidden');
+                    dashCompleted.classList.add('inline-flex', 'items-center', 'gap-1');
+                } else {
+                    dashCompleted.classList.add('hidden');
+                    dashCompleted.classList.remove('inline-flex', 'items-center', 'gap-1');
+                }
+            }
+
             if(badgeContainer) {
-                const validChars = charactersData.filter(function(c) { return c.name.trim() !== ''; });
-                if(validChars.length > 0) {
-                    let badgesHtml = '';
-                    validChars.forEach(function(char) {
-                        let colorClass = 'bg-earth-100 text-earth-700 border-earth-200';
-                        if(char.role.includes('ตัวเอก')) colorClass = 'bg-earth-700 text-white border-earth-800';
-                        if(char.role.includes('ตัวร้าย')) colorClass = 'bg-red-900/80 text-white border-red-900';
-                        
-                        const imgThumbnail = char.image ? `<img src="${char.image}" class="w-8 h-8 rounded-lg object-cover border border-white/30 shrink-0 shadow-sm">` : `<i class="ph ph-user-circle text-2xl opacity-70"></i>`;
-                        
-                        badgesHtml += `
-                            <button onclick="openCharacterModal('${char.id}')" class="pl-2 pr-4 py-1.5 rounded-xl text-sm font-medium border shadow-sm hover:scale-105 hover:shadow-md transition-all ${colorClass} flex items-center gap-2">
-                                ${imgThumbnail}
-                                <span class="truncate max-w-[120px] font-semibold">${char.name}</span> <i class="ph ph-arrow-up-right text-[10px] opacity-70 ml-1"></i>
-                            </button>
-                        `;
-                    });
-                    badgeContainer.innerHTML = badgesHtml;
-                } else {
-                    badgeContainer.innerHTML = '<span class="text-earth-400 italic text-sm">- ยังไม่มีข้อมูลตัวละคร -</span>';
-                }
-            }
+<!-- ... existing code ... -->
+```
 
-            const relListContainer = document.getElementById('dash-relationships-list');
-            if(relListContainer) {
-                if(relationshipsData.length > 0) {
-                    let relsHtml = '';
-                    relationshipsData.forEach(function(rel) {
-                        const char1Obj = charactersData.find(function(c) { return c.id === rel.char1; });
-                        const char2Obj = charactersData.find(function(c) { return c.id === rel.char2; });
-                        const char1Name = char1Obj ? char1Obj.name : '?';
-                        const char2Name = char2Obj ? char2Obj.name : '?';
-                        
-                        relsHtml += `
-                            <li class="flex items-center gap-2 bg-white/50 p-2 rounded-lg">
-                                <span class="font-semibold w-1/3 text-right truncate" title="${char1Name}">${char1Name}</span>
-                                <span class="px-2 py-0.5 bg-earth-200/50 text-earth-600 rounded-full text-[10px] whitespace-nowrap">${rel.type.split(' ')[0]}</span>
-                                <span class="font-semibold w-1/3 truncate" title="${char2Name}">${char2Name}</span>
-                            </li>
-                        `;
-                    });
-                    relListContainer.innerHTML = relsHtml;
-                } else {
-                    relListContainer.innerHTML = '<li class="text-earth-400 italic">- ไม่มีข้อมูลความสัมพันธ์ -</li>';
-                }
-            }
-            
-            // --- Update Chapter Progress ---
-            const dashChecklist = document.getElementById('dash-chapter-checklist');
-            const dashPercent = document.getElementById('dash-progress-percent');
-            const dashText = document.getElementById('dash-progress-text');
-            const dashRemain = document.getElementById('dash-progress-remain');
-            const dashCircle = document.getElementById('dash-progress-circle');
-
-            if(dashChecklist) {
-                if(chaptersData.length === 0) {
-                    dashChecklist.innerHTML = '<p class="text-sm text-earth-400 italic py-4 col-span-2 text-center">- ยังไม่มีข้อมูลรายตอน กรุณาสร้างที่หน้าฟอร์ม -</p>';
-                    dashPercent.textContent = '0%';
-                    dashText.textContent = '0 / 0 ตอน';
-                    dashRemain.textContent = 'เหลืออีก 0 ตอน';
-                    if(dashCircle) dashCircle.style.strokeDashoffset = 251.2;
-                } else {
-                    const total = chaptersData.length;
-                    const completed = chaptersData.filter(c => c.completed).length;
-                    const remain = total - completed;
-                    const percent = Math.round((completed / total) * 100);
-                    
-                    dashPercent.textContent = `${percent}%`;
-                    dashText.textContent = `${completed} / ${total} ตอน`;
-                    dashRemain.textContent = remain === 0 ? '🎉 เขียนจบแล้ว!' : `เหลืออีก ${remain} ตอน`;
-                    
-                    if(dashCircle) {
-                        const offset = 251.2 - ((percent / 100) * 251.2);
-                        dashCircle.style.strokeDashoffset = offset;
-                    }
-
-                    // Group by Acts dynamically
-                    const grouped = {};
-                    const actsList = getActNames();
-                    actsList.forEach(actName => grouped[actName] = []);
-                    
-                    chaptersData.forEach(ch => {
-                        const actGroup = actsList.includes(ch.act) ? ch.act : (actsList[0] || 'ไม่ระบุองก์');
-                        if(!grouped[actGroup]) grouped[actGroup] = [];
-                        grouped[actGroup].push(ch);
-                    });
-
-                    let checklistHtml = '';
-                    actsList.forEach(actName => {
-                        if(grouped[actName] && grouped[actName].length > 0) {
-                            checklistHtml += `<div class="col-span-1 sm:col-span-2 mt-4 mb-2 border-b border-earth-200 pb-1"><h4 class="font-bold text-earth-800 text-sm"><i class="ph ph-folder-notch-open"></i> ${actName}</h4></div>`;
-                            grouped[actName].forEach(ch => {
-                                const checked = ch.completed ? 'checked' : '';
-                                const lineThrough = ch.completed ? 'line-through text-earth-400' : 'text-earth-800';
-                                const titleDisplay = ch.title ? `<span class="text-xs text-earth-500 ml-1 truncate">(${ch.title})</span>` : '';
-                                
-                                checklistHtml += `
-                                <label class="flex items-center gap-3 p-2 hover:bg-white/50 rounded-lg cursor-pointer transition">
-                                    <div class="relative flex items-center shrink-0">
-                                        <input type="checkbox" class="peer appearance-none w-5 h-5 border-2 border-earth-300 rounded focus:outline-none checked:bg-green-500 checked:border-green-500 transition cursor-pointer" onchange="toggleChapterComplete('${ch.id}')" ${checked}>
-                                        <i class="ph ph-check text-white absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 opacity-0 peer-checked:opacity-100 text-sm pointer-events-none transition"></i>
-                                    </div>
-                                    <div class="flex-1 truncate">
-                                        <span class="font-semibold text-sm ${lineThrough}">ตอนที่ ${ch.num}</span>
-                                        ${titleDisplay}
-                                    </div>
-                                </label>
-                                `;
-                            });
-                        }
-                    });
-                    dashChecklist.innerHTML = checklistHtml;
-                }
-            }
-        }
-
-        function openCharacterModal(id) {
-            const char = charactersData.find(function(c) { return c.id === id; });
-            if(!char) return;
-
-            // Load data into Modal matching the new layout
-            document.getElementById('modal-char-name').textContent = char.name || 'ไม่ระบุชื่อ';
-            document.getElementById('modal-char-role').textContent = char.role;
-            document.getElementById('modal-char-desc').textContent = char.desc || 'ไม่มีคำบรรยาย...';
-            
-            // New Stat Fields
-            document.getElementById('modal-char-age').textContent = char.age || '-';
-            document.getElementById('modal-char-birthday').textContent = char.birthday || '-';
-            document.getElementById('modal-char-height').textContent = char.height || '-';
-            document.getElementById('modal-char-nationality').textContent = char.nationality || '-';
-            document.getElementById('modal-char-occupation').textContent = char.occupation || '-';
-            document.getElementById('modal-char-mbti').textContent = char.mbti || '-';
-            document.getElementById('modal-char-likes').textContent = char.likes || '-';
-            document.getElementById('modal-char-dislikes').textContent = char.dislikes || '-';
-
-            // Goal & Conflict
-            document.getElementById('modal-char-goal').textContent = char.goal || '- ไม่มีข้อมูล -';
-            document.getElementById('modal-char-conflict').textContent = char.conflict || '- ไม่มีข้อมูล -';
-
-            const imgContainer = document.getElementById('modal-char-image');
-            if(char.image) {
-                imgContainer.innerHTML = `<img src="${char.image}" class="w-full h-full object-cover">`;
-            } else {
-                imgContainer.innerHTML = `<i class="ph ph-user text-6xl"></i>`;
-            }
-
-            const relContainer = document.getElementById('modal-char-relationships');
-            const relatedRels = relationshipsData.filter(function(r) { return r.char1 === id || r.char2 === id; });
-            
-            if(relatedRels.length > 0) {
-                let htmlStr = '';
-                relatedRels.forEach(function(rel) {
-                    const isChar1 = rel.char1 === id;
-                    const otherCharId = isChar1 ? rel.char2 : rel.char1;
-                    const otherChar = charactersData.find(function(c) { return c.id === otherCharId; });
-                    
-                    if(otherChar) {
-                        htmlStr += `
-                            <div class="bg-earth-50 p-3 rounded-xl border border-earth-100 flex flex-col justify-center">
-                                <div class="text-xs text-earth-500 mb-1">สถานะ: <span class="font-bold text-earth-700">${rel.type}</span> กับ</div>
-                                <div class="font-bold text-earth-900 text-sm mb-1"><i class="ph ph-user"></i> ${otherChar.name}</div>
-                                ${rel.desc ? `<div class="text-[11px] text-earth-600 bg-white/60 px-2 py-1 rounded leading-tight">${rel.desc}</div>` : ''}
-                            </div>
-                        `;
-                    }
-                });
-                relContainer.innerHTML = htmlStr;
-            } else {
-                relContainer.innerHTML = '<p class="text-sm text-earth-400 italic col-span-2">- ไม่มีความสัมพันธ์ที่ระบุไว้ -</p>';
-            }
-
-            const modal = document.getElementById('character-modal');
-            modal.classList.remove('hidden');
-            modal.classList.add('flex');
-        }
-
-        function closeCharacterModal() {
-            const modal = document.getElementById('character-modal');
-            modal.classList.add('hidden');
-            modal.classList.remove('flex');
-        }
-
-        function switchTab(tab) {
-            const viewForm = document.getElementById('view-form');
-            const viewDash = document.getElementById('view-dashboard');
-            const btnForm = document.getElementById('btn-form');
-            const btnDash = document.getElementById('btn-dashboard');
-
-            const activeClass = ['bg-white/70', 'text-earth-800', 'shadow-sm', 'border', 'border-white'];
-            const inactiveClass = ['text-earth-600', 'hover:bg-white/40', 'hover:text-earth-800', 'border-transparent'];
-
-            btnForm.classList.remove(...activeClass, ...inactiveClass);
-            btnDash.classList.remove(...activeClass, ...inactiveClass);
-
-            if (tab === 'form') {
-                viewForm.classList.remove('hidden');
-                viewDash.classList.add('hidden');
-                btnForm.classList.add(...activeClass);
-                btnDash.classList.add(...inactiveClass);
-            } else {
-                updateDashboard(); 
-                viewForm.classList.add('hidden');
-                viewDash.classList.remove('hidden');
-                btnDash.classList.add(...activeClass);
-                btnForm.classList.add(...inactiveClass);
-            }
-            
-            document.querySelector('main').scrollTo({ top: 0, behavior: 'smooth' });
-        }
-
-        window.onload = initApp;
-
-    </script>
-</body>
-</html>
+เมื่อระบบนำโค้ดไปวางทับเสร็จแล้ว ลองกด `Preview` ดูที่เมนูด้านซ้ายนะครับ คุณจะเห็นปุ่มคลังนิยาย และสามารถกดสร้างนิยายสลับไปมาได้เหมือนแอปนักเขียนของจริงเลยครับ!
