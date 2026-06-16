@@ -527,21 +527,21 @@
         // --- UI Helpers ---
         function showMessage(msg, isConfirm, onConfirm) {
             const overlay = document.createElement('div');
-            overlay.className = 'fixed inset-0 bg-earth-900/40 backdrop-blur-sm z-[60] flex items-center justify-center fade-in px-4';
+            overlay.className = 'fixed inset-0 bg-black/40 backdrop-blur-sm z-[60] flex items-center justify-center fade-in px-4';
             
             const box = document.createElement('div');
             box.className = 'glass-panel bg-white/95 p-8 rounded-3xl max-w-sm w-full text-center border border-white shadow-2xl';
             
-            const iconHTML = isConfirm ? '<i class="ph ph-warning-circle text-5xl text-orange-500 mb-4 inline-block"></i>' : '<i class="ph ph-info text-5xl text-earth-500 mb-4 inline-block"></i>';
-            const cancelBtnHTML = isConfirm ? '<button id="btn-cancel-msg" class="px-4 py-2 rounded-xl bg-earth-200 text-earth-800 font-medium hover:bg-earth-300 transition">ยกเลิก</button>' : '';
+            const iconHTML = isConfirm ? '<i class="ph ph-warning-circle text-5xl text-orange-500 mb-4 inline-block"></i>' : '<i class="ph ph-info text-5xl text-blue-500 mb-4 inline-block"></i>';
+            const cancelBtnHTML = isConfirm ? '<button id="btn-cancel-msg" class="px-4 py-2 rounded-xl font-medium transition" style="background-color: #e4dbcd; color: #564034;">ยกเลิก</button>' : '';
             const okText = isConfirm ? 'ยืนยัน' : 'ตกลง';
 
             box.innerHTML = `
                 ${iconHTML}
-                <p class="text-lg text-earth-900 font-medium mb-6">${msg}</p>
+                <p class="text-lg font-medium mb-6" style="color: #564034;">${msg}</p>
                 <div class="flex gap-3 justify-center">
                     ${cancelBtnHTML}
-                    <button id="btn-ok-msg" class="px-6 py-2 rounded-xl bg-earth-700 text-white font-medium hover:bg-earth-800 transition shadow-md">${okText}</button>
+                    <button id="btn-ok-msg" class="px-6 py-2 rounded-xl font-medium transition shadow-md hover:opacity-90" style="background-color: #815c46; color: white;">${okText}</button>
                 </div>
             `;
             
@@ -559,20 +559,20 @@
 
         function showInputPrompt(msg, placeholder, onConfirm, onCancel) {
             const overlay = document.createElement('div');
-            overlay.className = 'fixed inset-0 bg-earth-900/60 backdrop-blur-sm z-[70] flex items-center justify-center fade-in px-4';
+            overlay.className = 'fixed inset-0 bg-black/40 backdrop-blur-sm z-[70] flex items-center justify-center fade-in px-4';
 
             const box = document.createElement('div');
             box.className = 'glass-panel bg-white/95 p-6 rounded-3xl max-w-sm w-full shadow-2xl border border-white relative';
 
             box.innerHTML = `
-                <div class="flex items-center gap-3 mb-4 text-earth-800">
-                    <i class="ph ph-pencil-simple text-2xl text-earth-600"></i>
-                    <h3 class="text-lg font-bold">${msg}</h3>
+                <div class="flex items-center gap-3 mb-4">
+                    <i class="ph ph-pencil-simple text-2xl" style="color: #815c46;"></i>
+                    <h3 class="text-lg font-bold" style="color: #564034;">${msg}</h3>
                 </div>
-                <input type="text" id="prompt-input" class="glass-input w-full px-4 py-3 rounded-xl text-earth-900 mb-6 focus:outline-none" placeholder="${placeholder}">
+                <input type="text" id="prompt-input" class="glass-input w-full px-4 py-3 rounded-xl mb-6 focus:outline-none" style="color: #564034;" placeholder="${placeholder}">
                 <div class="flex gap-3 justify-end">
-                    <button id="btn-cancel-prompt" class="px-4 py-2 rounded-xl text-earth-600 font-medium hover:bg-earth-100 transition">ยกเลิก</button>
-                    <button id="btn-ok-prompt" class="px-6 py-2 rounded-xl bg-earth-700 text-white font-medium hover:bg-earth-800 transition shadow-md">ตกลง</button>
+                    <button id="btn-cancel-prompt" class="px-4 py-2 rounded-xl font-medium transition hover:opacity-80" style="background-color: #e4dbcd; color: #564034;">ยกเลิก</button>
+                    <button id="btn-ok-prompt" class="px-6 py-2 rounded-xl font-medium transition shadow-md hover:opacity-90" style="background-color: #815c46; color: white;">ตกลง</button>
                 </div>
             `;
 
